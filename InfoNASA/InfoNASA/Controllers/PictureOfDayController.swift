@@ -34,9 +34,10 @@ class PictureOfDayController: UIViewController {
         
         picture = PictureOfDay.getPicture()
         
-        setConstraints()
         configureLabels(with: picture)
         configureImage(with: picture)
+        
+        setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {

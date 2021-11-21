@@ -19,6 +19,10 @@
 		C23ADB58273DBFF50090A6C3 /* EPICController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB57273DBFF50090A6C3 /* EPICController.swift */; };
 		C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB59273E95FF0090A6C3 /* DataManager.swift */; };
 		C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */; };
+		C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */; };
+		C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */; };
+		C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */; };
+		C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* EPICCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +40,10 @@
 		C23ADB57273DBFF50090A6C3 /* EPICController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICController.swift; sourceTree = "<group>"; };
 		C23ADB59273E95FF0090A6C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDay.swift; sourceTree = "<group>"; };
+		C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearEarthObject.swift; sourceTree = "<group>"; };
+		C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearObjectsCell.swift; sourceTree = "<group>"; };
+		C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPIC.swift; sourceTree = "<group>"; };
+		C2EED8F8274AF63100E86A1D /* EPICCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +91,8 @@
 			isa = PBXGroup;
 			children = (
 				C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */,
+				C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */,
+				C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -103,7 +113,9 @@
 				C23ADB51273D4A790090A6C3 /* TabBarController.swift */,
 				C23ADB53273DAF2B0090A6C3 /* PictureOfDayController.swift */,
 				C23ADB55273DBFC90090A6C3 /* NearObjectsController.swift */,
+				C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */,
 				C23ADB57273DBFF50090A6C3 /* EPICController.swift */,
+				C2EED8F8274AF63100E86A1D /* EPICCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -197,6 +209,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C20E2AC0273D24BB009A194D /* AppDelegate.swift in Sources */,
+				C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */,
+				C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */,
+				C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */,
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
 				C20E2AC2273D24BB009A194D /* SceneDelegate.swift in Sources */,
 				C23ADB56273DBFC90090A6C3 /* NearObjectsController.swift in Sources */,
@@ -205,6 +220,7 @@
 				C23ADB58273DBFF50090A6C3 /* EPICController.swift in Sources */,
 				C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */,
 				C23ADB52273D4A790090A6C3 /* TabBarController.swift in Sources */,
+				C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
