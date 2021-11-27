@@ -23,6 +23,8 @@
 		C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */; };
 		C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */; };
 		C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* EPICCell.swift */; };
+		C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE32752304800AAD03C /* NetworkManager.swift */; };
+		C2F2DFE62752335400AAD03C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE52752335400AAD03C /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearObjectsCell.swift; sourceTree = "<group>"; };
 		C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPIC.swift; sourceTree = "<group>"; };
 		C2EED8F8274AF63100E86A1D /* EPICCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICCell.swift; sourceTree = "<group>"; };
+		C2F2DFE32752304800AAD03C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		C2F2DFE52752335400AAD03C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,11 +80,11 @@
 		C20E2ABE273D24BB009A194D /* InfoNASA */ = {
 			isa = PBXGroup;
 			children = (
-				C20E2AD7273D2527009A194D /* Configs */,
-				C20E2AD6273D251A009A194D /* Services */,
-				C20E2AD5273D2510009A194D /* Controllers */,
-				C20E2AD4273D250B009A194D /* Views */,
 				C20E2AD3273D24FE009A194D /* Models */,
+				C20E2AD5273D2510009A194D /* ViewControllers */,
+				C20E2AD4273D250B009A194D /* Views */,
+				C20E2AD6273D251A009A194D /* Services */,
+				C20E2AD7273D2527009A194D /* Configs */,
 				C20E2AC8273D24BC009A194D /* Assets.xcassets */,
 				C20E2ACD273D24BC009A194D /* Info.plist */,
 			);
@@ -106,7 +110,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		C20E2AD5273D2510009A194D /* Controllers */ = {
+		C20E2AD5273D2510009A194D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				C23ADB4F273D47840090A6C3 /* MainNavigationController.swift */,
@@ -117,12 +121,13 @@
 				C23ADB57273DBFF50090A6C3 /* EPICController.swift */,
 				C2EED8F8274AF63100E86A1D /* EPICCell.swift */,
 			);
-			path = Controllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		C20E2AD6273D251A009A194D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C2F2DFE32752304800AAD03C /* NetworkManager.swift */,
 				C23ADB59273E95FF0090A6C3 /* DataManager.swift */,
 			);
 			path = Services;
@@ -131,6 +136,7 @@
 		C20E2AD7273D2527009A194D /* Configs */ = {
 			isa = PBXGroup;
 			children = (
+				C2F2DFE52752335400AAD03C /* Constants.swift */,
 				C20E2ABF273D24BB009A194D /* AppDelegate.swift */,
 				C20E2AC1273D24BB009A194D /* SceneDelegate.swift */,
 			);
@@ -213,11 +219,13 @@
 				C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */,
 				C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */,
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
+				C2F2DFE62752335400AAD03C /* Constants.swift in Sources */,
 				C20E2AC2273D24BB009A194D /* SceneDelegate.swift in Sources */,
 				C23ADB56273DBFC90090A6C3 /* NearObjectsController.swift in Sources */,
 				C23ADB54273DAF2B0090A6C3 /* PictureOfDayController.swift in Sources */,
 				C23ADB50273D47840090A6C3 /* MainNavigationController.swift in Sources */,
 				C23ADB58273DBFF50090A6C3 /* EPICController.swift in Sources */,
+				C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */,
 				C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */,
 				C23ADB52273D4A790090A6C3 /* TabBarController.swift in Sources */,
 				C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */,

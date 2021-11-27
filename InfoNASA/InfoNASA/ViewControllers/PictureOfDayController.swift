@@ -18,7 +18,7 @@ class PictureOfDayController: UIViewController {
     var explanationLabel = UILabel()
     var urlLabel = UILabel()
     
-    private var picture: PictureOfDay!
+    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +32,11 @@ class PictureOfDayController: UIViewController {
         scrollView.addSubview(explanationLabel)
         scrollView.addSubview(urlLabel)
         
-        picture = PictureOfDay.getPicture()
-        
-        configureLabels(with: picture)
-        configureImage(with: picture)
+        networkManager.fetchPictureOfDay { [weak self] pictureOfDay in
+            guard let picture = pictureOfDay else { return }
+            self?.configureLabels(with: picture)
+            self?.configureImage(with: picture)
+        }
         
         setConstraints()
     }
@@ -113,7 +114,7 @@ class PictureOfDayController: UIViewController {
         dateLabel.font = .systemFont(ofSize: 18)
         dateLabel.contentMode = .left
         
-        copyrightLabel.text = picture.copyright
+        copyrightLabel.text = ""
         copyrightLabel.font = .systemFont(ofSize: 18)
         copyrightLabel.contentMode = .right
         
@@ -137,6 +138,11 @@ class PictureOfDayController: UIViewController {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "M33_PS1_CROP_INSIGHT2048")
+        imageView.image = UIImage(systemName: "photo")
+        imageView.layer.opacity = 0.1
+        NetworkManager.fetchImage(for: picture.url) { [weak self] image in
+            self?.imageView.image = image
+            self?.imageView.layer.opacity = 1
+        }
     }
 }
