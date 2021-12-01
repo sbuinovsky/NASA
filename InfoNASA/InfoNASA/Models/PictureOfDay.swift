@@ -10,7 +10,7 @@ import Foundation
 struct PictureOfDay: Codable {
     let date: String
     let explanation: String
-    let hdurl: String
+    let hdurl: String?
     let mediaType: String
     let title: String
     let url: String

@@ -11,7 +11,8 @@ class NearObjectsController: UIViewController {
 
     var tableView = UITableView()
     
-    private var objects: [NearEarthObject]!
+    private var objects: [String: [NearEarthObject]] = [:]
+    private var objectsKeys: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +20,17 @@ class NearObjectsController: UIViewController {
         
         view.addSubview(tableView)
         
-        objects = NearEarthObject.getObjects().sorted {$0.absoluteMagnitudeH > $1.absoluteMagnitudeH}
+        NetworkManager.shared.fetchNearEarthObjects { [weak self] result in
+            switch result {
+            case .success(let nearEarthObjectsDict):
+                guard let nearEarthObjectsDict = nearEarthObjectsDict else { return }
+                self?.objects = nearEarthObjectsDict
+                self?.objectsKeys = Array((self?.objects.keys)!)
+                self?.tableView.reloadData()
+            case .failure(_):
+                print("failure")
+            }
+        }
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -48,8 +59,14 @@ class NearObjectsController: UIViewController {
 }
 
 extension NearObjectsController: UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        objectsKeys.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        objects.count
+        let key = objectsKeys[section]
+        return objects[key]?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,11 +74,17 @@ extension NearObjectsController: UITableViewDataSource, UITableViewDelegate {
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let object = objects[indexPath.row]
-
-        cell.configure(with: object)
+        let key = objectsKeys[indexPath.section]
+        let object = objects[key]?[indexPath.row]
+        if let object = object {
+            cell.configure(with: object)
+        }
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "Date: \(objectsKeys[section])"
     }
 
 }

@@ -17,8 +17,7 @@ class PictureOfDayController: UIViewController {
     var dateLabel = UILabel()
     var explanationLabel = UILabel()
     var urlLabel = UILabel()
-    
-    private let networkManager = NetworkManager()
+    var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +31,19 @@ class PictureOfDayController: UIViewController {
         scrollView.addSubview(explanationLabel)
         scrollView.addSubview(urlLabel)
         
-        networkManager.fetchPictureOfDay { [weak self] pictureOfDay in
-            guard let picture = pictureOfDay else { return }
-            self?.configureLabels(with: picture)
-            self?.configureImage(with: picture)
+        imageView.addSubview(activityIndicator)
+        activityIndicator.isHidden = true
+        
+        NetworkManager.shared.fetchPictureOfDay { [weak self] result in
+            switch result {
+            case .success(let pictureOfDay):
+                guard let picture = pictureOfDay else { return }
+                self?.configureLabels(with: picture)
+                self?.configureActivityIndicator()
+                self?.configureImage(with: picture)
+            case .failure(let error):
+                print(error)
+            }
         }
         
         setConstraints()
@@ -45,6 +53,7 @@ class PictureOfDayController: UIViewController {
         super.viewWillAppear(animated)
         
         tabBarController?.title = "Picture of the Day"
+        
     }
     
     private func setConstraints() {
@@ -55,6 +64,7 @@ class PictureOfDayController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         explanationLabel.translatesAutoresizingMaskIntoConstraints = false
         urlLabel.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         let scrollViewConstraints = [
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -81,9 +91,15 @@ class PictureOfDayController: UIViewController {
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.8)
         ]
         
+        let activityIndicatorConstraints = [
+            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+        ]
+        
         let titleLabelConstraints = [
-            titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20)
         ]
         
         let explanationLabelConstraints = [
@@ -104,6 +120,7 @@ class PictureOfDayController: UIViewController {
         NSLayoutConstraint.activate(dateLabelConstraints)
         NSLayoutConstraint.activate(copyrightLabelConstraints)
         NSLayoutConstraint.activate(imageViewConstraints)
+        NSLayoutConstraint.activate(activityIndicatorConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(explanationLabelConstraints)
         NSLayoutConstraint.activate(urlLabelConstraints)
@@ -118,6 +135,7 @@ class PictureOfDayController: UIViewController {
         copyrightLabel.font = .systemFont(ofSize: 18)
         copyrightLabel.contentMode = .right
         
+        titleLabel.numberOfLines = 0
         titleLabel.text = picture.title
         titleLabel.font = .systemFont(ofSize: 24)
         titleLabel.contentMode = .left
@@ -138,11 +156,17 @@ class PictureOfDayController: UIViewController {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(systemName: "photo")
-        imageView.layer.opacity = 0.1
-        NetworkManager.fetchImage(for: picture.url) { [weak self] image in
-            self?.imageView.image = image
+        ImageManager.shared.fetchImage(for: picture.url) { [weak self] data in
+            self?.imageView.image = UIImage(data: data)
+            self?.activityIndicator.stopAnimating()
+            self?.imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
             self?.imageView.layer.opacity = 1
         }
+    }
+    
+    private func configureActivityIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
     }
 }
