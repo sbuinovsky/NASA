@@ -77,12 +77,7 @@ class NetworkManager: NetworkManagerProtocol {
         }.resume()
     }
     
-    func fetchNearEarthObjects(completion: @escaping(Result<[String: [NearEarthObject]]?, NetworkError>) -> Void) {
-        let parameters = [
-            "start_date": "2021-10-01",
-            "end_date":"2021-10-05"
-        ]
-        
+    func fetchNearEarthObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[String: [NearEarthObject]]?, NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .nearEarthObjects, with: parameters)
         
         guard let url = URL(string: urlPath) else {
@@ -94,7 +89,7 @@ class NetworkManager: NetworkManagerProtocol {
             .validate()
             .responseJSON { dataResponse in
                 switch dataResponse.result {
-                case .success(let value):
+                case .success(_):
                     guard let data = dataResponse.data else { return }
                     let nearEarthObjects: NearEarthObjects? = self.parseData(with: data)
                     let nearEarthObjectsDict = nearEarthObjects?.nearEarthObjects
@@ -103,6 +98,16 @@ class NetworkManager: NetworkManagerProtocol {
                     completion(.failure(.noData))
                 }
             }
+    }
+    
+    func getDateInterval(from startDate: Date, to endDate: Date) -> [String: String] {
+        let startDate = dateFormatter(with: startDate)
+        let endDate = dateFormatter(with: endDate)
+        
+        return [
+            "start_date": startDate,
+            "end_date": endDate
+        ]
     }
     
     //MARK: - Private methods
@@ -148,6 +153,13 @@ class NetworkManager: NetworkManagerProtocol {
         }
         
         return urlPath
+    }
+    
+    private func dateFormatter(with date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
     }
 }
 

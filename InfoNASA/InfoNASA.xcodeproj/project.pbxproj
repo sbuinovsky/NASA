@@ -13,11 +13,11 @@
 		C20E2AC7273D24BB009A194D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C20E2AC5273D24BB009A194D /* Main.storyboard */; };
 		C20E2AC9273D24BC009A194D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C20E2AC8273D24BC009A194D /* Assets.xcassets */; };
 		C20E2ACC273D24BC009A194D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C20E2ACA273D24BC009A194D /* LaunchScreen.storyboard */; };
-		C23ADB50273D47840090A6C3 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB4F273D47840090A6C3 /* MainNavigationController.swift */; };
-		C23ADB52273D4A790090A6C3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB51273D4A790090A6C3 /* TabBarController.swift */; };
-		C23ADB54273DAF2B0090A6C3 /* PictureOfDayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB53273DAF2B0090A6C3 /* PictureOfDayController.swift */; };
-		C23ADB56273DBFC90090A6C3 /* NearObjectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB55273DBFC90090A6C3 /* NearObjectsController.swift */; };
-		C23ADB58273DBFF50090A6C3 /* EPICController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB57273DBFF50090A6C3 /* EPICController.swift */; };
+		C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */; };
+		C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */; };
+		C23ADB54273DAF2B0090A6C3 /* PictureOfDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */; };
+		C23ADB56273DBFC90090A6C3 /* NearObjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB55273DBFC90090A6C3 /* NearObjectsViewController.swift */; };
+		C23ADB58273DBFF50090A6C3 /* EPICViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB57273DBFF50090A6C3 /* EPICViewController.swift */; };
 		C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB59273E95FF0090A6C3 /* DataManager.swift */; };
 		C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */; };
 		C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */; };
@@ -38,11 +38,11 @@
 		C20E2AC8273D24BC009A194D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C20E2ACB273D24BC009A194D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C20E2ACD273D24BC009A194D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C23ADB4F273D47840090A6C3 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
-		C23ADB51273D4A790090A6C3 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		C23ADB53273DAF2B0090A6C3 /* PictureOfDayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDayController.swift; sourceTree = "<group>"; };
-		C23ADB55273DBFC90090A6C3 /* NearObjectsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearObjectsController.swift; sourceTree = "<group>"; };
-		C23ADB57273DBFF50090A6C3 /* EPICController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICController.swift; sourceTree = "<group>"; };
+		C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationViewController.swift; sourceTree = "<group>"; };
+		C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDayViewController.swift; sourceTree = "<group>"; };
+		C23ADB55273DBFC90090A6C3 /* NearObjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearObjectsViewController.swift; sourceTree = "<group>"; };
+		C23ADB57273DBFF50090A6C3 /* EPICViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICViewController.swift; sourceTree = "<group>"; };
 		C23ADB59273E95FF0090A6C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDay.swift; sourceTree = "<group>"; };
 		C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearEarthObject.swift; sourceTree = "<group>"; };
@@ -82,7 +82,6 @@
 				8370DFB88A0EE15AE412F639 /* Pods-InfoNASA.debug.xcconfig */,
 				D9B20C72E5BD737730994448 /* Pods-InfoNASA.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -111,6 +110,7 @@
 				C20E2AD3273D24FE009A194D /* Models */,
 				C20E2AD5273D2510009A194D /* ViewControllers */,
 				C20E2AD4273D250B009A194D /* Views */,
+				C28D5CF92758A54700020107 /* Storyboards */,
 				C20E2AD6273D251A009A194D /* Services */,
 				C20E2AD7273D2527009A194D /* Configs */,
 				C20E2AC8273D24BC009A194D /* Assets.xcassets */,
@@ -132,8 +132,8 @@
 		C20E2AD4273D250B009A194D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C20E2AC5273D24BB009A194D /* Main.storyboard */,
-				C20E2ACA273D24BC009A194D /* LaunchScreen.storyboard */,
+				C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */,
+				C2EED8F8274AF63100E86A1D /* EPICCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -141,13 +141,11 @@
 		C20E2AD5273D2510009A194D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C23ADB4F273D47840090A6C3 /* MainNavigationController.swift */,
-				C23ADB51273D4A790090A6C3 /* TabBarController.swift */,
-				C23ADB53273DAF2B0090A6C3 /* PictureOfDayController.swift */,
-				C23ADB55273DBFC90090A6C3 /* NearObjectsController.swift */,
-				C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */,
-				C23ADB57273DBFF50090A6C3 /* EPICController.swift */,
-				C2EED8F8274AF63100E86A1D /* EPICCell.swift */,
+				C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */,
+				C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */,
+				C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */,
+				C23ADB55273DBFC90090A6C3 /* NearObjectsViewController.swift */,
+				C23ADB57273DBFF50090A6C3 /* EPICViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -169,6 +167,15 @@
 				C20E2AC1273D24BB009A194D /* SceneDelegate.swift */,
 			);
 			path = Configs;
+			sourceTree = "<group>";
+		};
+		C28D5CF92758A54700020107 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				C20E2AC5273D24BB009A194D /* Main.storyboard */,
+				C20E2ACA273D24BC009A194D /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		C2F2DFE927540E4900AAD03C /* Extensions */ = {
@@ -301,14 +308,14 @@
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
 				C2F2DFE62752335400AAD03C /* Constants.swift in Sources */,
 				C20E2AC2273D24BB009A194D /* SceneDelegate.swift in Sources */,
-				C23ADB56273DBFC90090A6C3 /* NearObjectsController.swift in Sources */,
-				C23ADB54273DAF2B0090A6C3 /* PictureOfDayController.swift in Sources */,
-				C23ADB50273D47840090A6C3 /* MainNavigationController.swift in Sources */,
+				C23ADB56273DBFC90090A6C3 /* NearObjectsViewController.swift in Sources */,
+				C23ADB54273DAF2B0090A6C3 /* PictureOfDayViewController.swift in Sources */,
+				C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */,
 				C2F2DFE827540A5D00AAD03C /* Extension + UIView.swift in Sources */,
-				C23ADB58273DBFF50090A6C3 /* EPICController.swift in Sources */,
+				C23ADB58273DBFF50090A6C3 /* EPICViewController.swift in Sources */,
 				C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */,
 				C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */,
-				C23ADB52273D4A790090A6C3 /* TabBarController.swift in Sources */,
+				C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */,
 				C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

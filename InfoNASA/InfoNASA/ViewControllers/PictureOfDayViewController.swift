@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PictureOfDayController: UIViewController {
+class PictureOfDayViewController: UIViewController {
 
     //MARK: - Views
     var scrollView = UIScrollView()

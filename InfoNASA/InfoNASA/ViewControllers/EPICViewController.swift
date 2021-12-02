@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EPICController: UIViewController {
+class EPICViewController: UIViewController {
 
     //MARK: - Views
     var tableView = UITableView()
@@ -59,7 +59,7 @@ class EPICController: UIViewController {
     }
 }
 
-extension EPICController: UITableViewDataSource, UITableViewDelegate {
+extension EPICViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
     }

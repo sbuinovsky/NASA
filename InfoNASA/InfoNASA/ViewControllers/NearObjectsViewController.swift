@@ -7,9 +7,10 @@
 
 import UIKit
 
-class NearObjectsController: UIViewController {
+class NearObjectsViewController: UIViewController {
 
     var tableView = UITableView()
+    var activityIndicator = UIActivityIndicatorView()
     
     private var objects: [String: [NearEarthObject]] = [:]
     private var objectsKeys: [String] = []
@@ -19,23 +20,26 @@ class NearObjectsController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(tableView)
+        tableView.addSubview(activityIndicator)
         
-        NetworkManager.shared.fetchNearEarthObjects { [weak self] result in
+        configureTableView()
+        configureActivityIndicator()
+        setConstraints()
+        
+        let dateInterval = getDateInterval(for: 2)
+        
+        NetworkManager.shared.fetchNearEarthObjects(forDateInterval: dateInterval) { [weak self] result in
             switch result {
             case .success(let nearEarthObjectsDict):
                 guard let nearEarthObjectsDict = nearEarthObjectsDict else { return }
                 self?.objects = nearEarthObjectsDict
-                self?.objectsKeys = Array((self?.objects.keys)!)
+                self?.objectsKeys = Array((self?.objects.keys)!).sorted(by: >)
+                self?.activityIndicator.stopAnimating()
                 self?.tableView.reloadData()
             case .failure(_):
                 print("failure")
             }
         }
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(NearObjectsCell.self, forCellReuseIdentifier: "nearObjectsCell")
-        setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,8 +48,22 @@ class NearObjectsController: UIViewController {
         tabBarController?.title = "Near Earth objects"
     }
     
+    private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(NearObjectsCell.self, forCellReuseIdentifier: "nearObjectsCell")
+        tableView.sectionHeaderHeight = 60
+    }
+    
+    private func configureActivityIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+    }
+    
     private func setConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         let tableViewConstraints = [
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -54,11 +72,24 @@ class NearObjectsController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ]
         
+        let activityIndicatorConstraints = [
+            activityIndicator.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: tableView.centerYAnchor)
+        ]
+        
         NSLayoutConstraint.activate(tableViewConstraints)
+        NSLayoutConstraint.activate(activityIndicatorConstraints)
+    }
+    
+    private func getDateInterval(for days: Int) -> [String: String] {
+        let startDate = Date()
+        let timeInterval = TimeInterval(-3600 * 24 * days)
+        let endDate = Date(timeInterval: timeInterval, since: startDate)
+        return NetworkManager.shared.getDateInterval(from: startDate, to: endDate)
     }
 }
 
-extension NearObjectsController: UITableViewDataSource, UITableViewDelegate {
+extension NearObjectsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         objectsKeys.count
