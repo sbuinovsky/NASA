@@ -15,7 +15,21 @@
 
 import Foundation
 
-class StorageManager {
+protocol StorageManagerProtocol {
+    func save<T>(object: T, for key: StorageKeys)
+    func save<T>(objects: [T], for key: StorageKeys)
+    func getObjects<T>(for key: StorageKeys) -> [T]
+    func deleteObjects(for key: StorageKeys)
+}
+
+enum StorageKeys: String {
+    case picturesOfDay
+    case nearEarthObjects
+    case picturesOfEPIC
+}
+
+class StorageManager: StorageManagerProtocol {
+    
     static let shared = StorageManager()
     
     private let userDefaults = UserDefaults.standard
@@ -23,24 +37,27 @@ class StorageManager {
     
     private init() {}
     
-    
-    func save(contact: String) {
-        var contacts = fetchContacts()
-        contacts.append(contact)
-        userDefaults.set(contacts, forKey: key)
+    func save<T>(object: T, for key: StorageKeys) {
+        var objects: [T] = getObjects(for: key)
+        objects.append(object)
+        save(objects: objects, for: key)
+        
     }
     
-    func fetchContacts() -> [String] {
-        if let contacts = userDefaults.value(forKey: key) as? [String] {
-            return contacts
+    func save<T>(objects: [T], for key: StorageKeys) {
+        userDefaults.set(objects, forKey: key.rawValue)
+        
+    }
+    
+    func getObjects<T>(for key: StorageKeys) -> [T] {
+        if let objects = userDefaults.value(forKey: key.rawValue) as? [T] {
+            return objects
         }
         return []
     }
     
-    func deleteContact(at index: Int) {
-        var contacts = fetchContacts()
-        contacts.remove(at: index)
-        userDefaults.set(contacts, forKey: key)
+    func deleteObjects(for key: StorageKeys) {
+        userDefaults.removeObject(forKey: key.rawValue)
     }
 }
 

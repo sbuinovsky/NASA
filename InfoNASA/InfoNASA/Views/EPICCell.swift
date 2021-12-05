@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AlamofireImage
 
 class EPICCell: UITableViewCell {
 
@@ -33,9 +32,9 @@ class EPICCell: UITableViewCell {
         let imagePath = ImageManager.shared.generateEPICImageURLPath(for: picture)
         ImageManager.shared.fetchImage(for: imagePath) { [weak self] image in
             self?.photoImageView.image = image
-            self?.photoImageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
             self?.activityIndicator.stopAnimating()
         }
+        photoImageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
     }
     
     private func configureLabels(with picture: PictureOfEPIC) {

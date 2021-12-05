@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AlamofireImage
 
 class PictureOfDayViewController: UIViewController {
 
@@ -153,11 +152,11 @@ class PictureOfDayViewController: UIViewController {
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
         
-        ImageManager.shared.fetchImage(for: picture.url, completion: { [weak self] image in
+        ImageManager.shared.fetchImage(for: picture.url) { [weak self] image in
             self?.imageView.image = image
-            self?.imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
             self?.activityIndicator.stopAnimating()
-        })
+        }
+        imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
     }
     
     private func configureActivityIndicator() {
