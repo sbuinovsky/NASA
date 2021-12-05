@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class PictureOfDayViewController: UIViewController {
 
@@ -30,16 +31,15 @@ class PictureOfDayViewController: UIViewController {
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(explanationLabel)
         scrollView.addSubview(urlLabel)
+        scrollView.addSubview(activityIndicator)
         
-        imageView.addSubview(activityIndicator)
-        activityIndicator.isHidden = true
+        configureActivityIndicator()
         
         NetworkManager.shared.fetchPictureOfDay { [weak self] result in
             switch result {
             case .success(let pictureOfDay):
                 guard let picture = pictureOfDay else { return }
                 self?.configureLabels(with: picture)
-                self?.configureActivityIndicator()
                 self?.configureImage(with: picture)
             case .failure(let error):
                 print(error)
@@ -128,26 +128,22 @@ class PictureOfDayViewController: UIViewController {
 
     private func configureLabels(with picture: PictureOfDay) {
         dateLabel.text = picture.date
-        dateLabel.font = .systemFont(ofSize: 18)
         dateLabel.contentMode = .left
         
         copyrightLabel.text = ""
-        copyrightLabel.font = .systemFont(ofSize: 18)
         copyrightLabel.contentMode = .right
         
         titleLabel.numberOfLines = 0
         titleLabel.text = picture.title
-        titleLabel.font = .systemFont(ofSize: 24)
+        titleLabel.font = .systemFont(ofSize: 22)
         titleLabel.contentMode = .left
         
         explanationLabel.numberOfLines = 0
         explanationLabel.text = picture.explanation
-        explanationLabel.font = .systemFont(ofSize: 20)
         explanationLabel.contentMode = .left
         
         urlLabel.numberOfLines = 1
         urlLabel.text = picture.url
-        urlLabel.font = .systemFont(ofSize: 18)
         urlLabel.textColor = .systemBlue
         urlLabel.contentMode = .left
     }
@@ -156,17 +152,17 @@ class PictureOfDayViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
-        ImageManager.shared.fetchImage(for: picture.url) { [weak self] data in
-            self?.imageView.image = UIImage(data: data)
-            self?.activityIndicator.stopAnimating()
+        
+        ImageManager.shared.fetchImage(for: picture.url, completion: { [weak self] image in
+            self?.imageView.image = image
             self?.imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
-            self?.imageView.layer.opacity = 1
-        }
+            self?.activityIndicator.stopAnimating()
+        })
     }
     
     private func configureActivityIndicator() {
-        activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
+        activityIndicator.startAnimating()
     }
 }

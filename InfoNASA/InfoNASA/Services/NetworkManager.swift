@@ -5,13 +5,17 @@
 //  Created by Станислав Буйновский on 27.11.2021.
 //
 
-import Foundation
+import UIKit
 import Alamofire
 
 protocol NetworkManagerProtocol {
     func fetchPictureOfDay(completion: @escaping (Result<PictureOfDay?, NetworkError>) -> Void)
     func fetchPictureOfEPIC(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void)
+    func fetchNearEarthObjects(forDateInterval: [String: String], completion: @escaping(Result<[String: [NearEarthObject]]?, NetworkError>) -> Void)
+    func getDateInterval(from startDate: Date, to endDate: Date) -> [String: String]
+    func getDateInterval(for days: Int) -> [String: String]
 }
+
 
 private enum CategoryPath: String {
     case pictureOfDay = "/planetary/apod"
@@ -110,6 +114,13 @@ class NetworkManager: NetworkManagerProtocol {
         ]
     }
     
+    func getDateInterval(for days: Int) -> [String: String] {
+        let startDate = Date()
+        let timeInterval = TimeInterval(-3600 * 24 * (days - 1))
+        let endDate = Date(timeInterval: timeInterval, since: startDate)
+        return NetworkManager.shared.getDateInterval(from: startDate, to: endDate)
+    }
+    
     //MARK: - Private methods
     private func parseData<T: Codable>(with data: Data) -> T? {
         let decoder = JSONDecoder()
@@ -168,14 +179,30 @@ class ImageManager {
     
     private init() {}
     
-    func fetchImage(for imagePath: String, completion: @escaping(Data) -> Void) {
-        DispatchQueue.global().async {
-            guard let url = URL(string: imagePath) else { return }
-            guard let data = try? Data(contentsOf: url) else { return }
-            DispatchQueue.main.async {
-                completion(data)
-            }
+    func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void) {
+        guard let url = URL(string: imagePath) else { return }
+
+        if let cachedImage = ImageCache.shared.getImageFromCache(url: imagePath) {
+            completion(cachedImage)
         }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data else {
+                print(error?.localizedDescription ?? "No error description")
+                return
+            }
+            
+            guard let image = UIImage(data: data) else { return }
+            
+            ImageCache.shared.saveImageToCache(url: imagePath, image: image)
+            
+            DispatchQueue.main.async {
+                completion(image)
+                return
+            }
+            
+        }.resume()
+        
     }
     
     func generateEPICImageURLPath(for picture: PictureOfEPIC) -> String {

@@ -52,6 +52,10 @@ struct NearEarthObject: Codable {
         case closeApproachData = "close_approach_data"
         case isSentryObject = "is_sentry_object"
     }
+    
+    var description: String {
+        "TEST SOME"
+    }
 }
 
 // MARK: - CloseApproachDatum

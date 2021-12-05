@@ -29,7 +29,7 @@ class NearObjectsCell: UITableViewCell {
     
     private func configureLabels(for object: NearEarthObject) {
         nameLabel.text = object.name
-        nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+        nameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
         absoluteMagnitudeLabel.text = "Magnitude: \(object.absoluteMagnitudeH)"
         minDiameterLabel.text = "Diameter min: \(object.estimatedDiameter.kilometers.estimatedDiameterMin)"
         maxDiameterLabel.text = "Diameter max: \(object.estimatedDiameter.kilometers.estimatedDiameterMax)"

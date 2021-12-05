@@ -13,6 +13,8 @@
 		C20E2AC7273D24BB009A194D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C20E2AC5273D24BB009A194D /* Main.storyboard */; };
 		C20E2AC9273D24BC009A194D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C20E2AC8273D24BC009A194D /* Assets.xcassets */; };
 		C20E2ACC273D24BC009A194D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C20E2ACA273D24BC009A194D /* LaunchScreen.storyboard */; };
+		C22A9551275C0069005016FF /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A9550275C0069005016FF /* StorageManager.swift */; };
+		C22A9553275C22C5005016FF /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A9552275C22C5005016FF /* ImageCache.swift */; };
 		C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */; };
 		C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */; };
 		C23ADB54273DAF2B0090A6C3 /* PictureOfDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */; };
@@ -38,6 +40,8 @@
 		C20E2AC8273D24BC009A194D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C20E2ACB273D24BC009A194D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C20E2ACD273D24BC009A194D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C22A9550275C0069005016FF /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		C22A9552275C22C5005016FF /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationViewController.swift; sourceTree = "<group>"; };
 		C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDayViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 			children = (
 				C2F2DFE32752304800AAD03C /* NetworkManager.swift */,
 				C23ADB59273E95FF0090A6C3 /* DataManager.swift */,
+				C22A9550275C0069005016FF /* StorageManager.swift */,
+				C22A9552275C22C5005016FF /* ImageCache.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -304,6 +310,7 @@
 				C20E2AC0273D24BB009A194D /* AppDelegate.swift in Sources */,
 				C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */,
 				C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */,
+				C22A9551275C0069005016FF /* StorageManager.swift in Sources */,
 				C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */,
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
 				C2F2DFE62752335400AAD03C /* Constants.swift in Sources */,
@@ -312,6 +319,7 @@
 				C23ADB54273DAF2B0090A6C3 /* PictureOfDayViewController.swift in Sources */,
 				C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */,
 				C2F2DFE827540A5D00AAD03C /* Extension + UIView.swift in Sources */,
+				C22A9553275C22C5005016FF /* ImageCache.swift in Sources */,
 				C23ADB58273DBFF50090A6C3 /* EPICViewController.swift in Sources */,
 				C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */,
 				C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */,

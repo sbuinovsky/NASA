@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class EPICCell: UITableViewCell {
 
@@ -14,43 +15,38 @@ class EPICCell: UITableViewCell {
     var activityIndicator = UIActivityIndicatorView()
     
     func configure(with picture: PictureOfEPIC) {
+        self.addSubview(activityIndicator)
         self.addSubview(photoImageView)
         self.addSubview(dateLabel)
-        photoImageView.addSubview(activityIndicator)
-        
-        configureImages(with: picture)
-        configureLabels(with: picture)
+
         configureActivityIndicator()
+        configureLabels(with: picture)
+        configureImages(with: picture)
         setConstraints()
     }
     
     private func configureImages(with picture: PictureOfEPIC) {
         photoImageView.clipsToBounds = true
         photoImageView.contentMode = .scaleAspectFit
-        photoImageView.image = UIImage(named: picture.image)
         photoImageView.layer.cornerRadius = 10
-        photoImageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
         
         let imagePath = ImageManager.shared.generateEPICImageURLPath(for: picture)
-        
-        ImageManager.shared.fetchImage(for: imagePath) { [weak self] data in
-            self?.photoImageView.image = UIImage(data: data)
-            self?.activityIndicator.stopAnimating()
+        ImageManager.shared.fetchImage(for: imagePath) { [weak self] image in
+            self?.photoImageView.image = image
             self?.photoImageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
-            self?.photoImageView.layer.opacity = 1
+            self?.activityIndicator.stopAnimating()
         }
- 
     }
     
     private func configureLabels(with picture: PictureOfEPIC) {
-        dateLabel.text = picture.date
-        dateLabel.textColor = .white
+        dateLabel.text = "Photographed on the:\n" + picture.date
+        dateLabel.numberOfLines = 0
     }
     
     private func configureActivityIndicator() {
-        activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .large
+        activityIndicator.startAnimating()
     }
     
     private func setConstraints() {
@@ -59,10 +55,10 @@ class EPICCell: UITableViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         
         let photoImageViewConstraints = [
-            photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 60),
+            photoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             photoImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            photoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -60),
-            photoImageView.heightAnchor.constraint(equalTo: photoImageView.widthAnchor, multiplier: 1),
+            photoImageView.widthAnchor.constraint(equalToConstant: 100),
+            photoImageView.heightAnchor.constraint(equalTo: photoImageView.widthAnchor, multiplier: 1.0),
             photoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ]
         
@@ -72,12 +68,16 @@ class EPICCell: UITableViewCell {
         ]
         
         let dateLabelConstraints = [
-            dateLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: -10)
+            dateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            dateLabel.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 20)
         ]
         
         NSLayoutConstraint.activate(photoImageViewConstraints)
         NSLayoutConstraint.activate(activityIndicatorConstraints)
         NSLayoutConstraint.activate(dateLabelConstraints)
+    }
+    
+    override func prepareForReuse() {
+        photoImageView.image = nil
     }
 }

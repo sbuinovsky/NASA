@@ -136,13 +136,6 @@ class NearObjectsViewController: UIViewController {
         NSLayoutConstraint.activate(activityIndicatorConstraints)
     }
     
-    private func getDateInterval(for days: Int) -> [String: String] {
-        let startDate = Date()
-        let timeInterval = TimeInterval(-3600 * 24 * (days - 1))
-        let endDate = Date(timeInterval: timeInterval, since: startDate)
-        return NetworkManager.shared.getDateInterval(from: startDate, to: endDate)
-    }
-    
     private func updateTableView(for days: Int) {
         
         if objects.count >= days {
@@ -152,7 +145,7 @@ class NearObjectsViewController: UIViewController {
             tableView.reloadData()
             
         } else {
-            let dateInterval = getDateInterval(for: days)
+            let dateInterval = NetworkManager.shared.getDateInterval(for: days)
             NetworkManager.shared.fetchNearEarthObjects(forDateInterval: dateInterval) { [weak self] result in
                 switch result {
                 case .success(let nearEarthObjectsDict):
