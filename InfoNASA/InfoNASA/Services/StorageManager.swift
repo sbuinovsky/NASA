@@ -16,9 +16,9 @@
 import Foundation
 
 protocol StorageManagerProtocol {
-    func save<T>(object: T, for key: StorageKeys)
-    func save<T>(objects: [T], for key: StorageKeys)
-    func getObjects<T>(for key: StorageKeys) -> [T]
+//    func save<T>(object: T, for key: StorageKeys)
+    func save<T>(objects: [String: [T]], for key: StorageKeys)
+    func getObjects<T>(for key: StorageKeys) -> [String: [T]]
     func deleteObjects(for key: StorageKeys)
 }
 
@@ -33,27 +33,25 @@ class StorageManager: StorageManagerProtocol {
     static let shared = StorageManager()
     
     private let userDefaults = UserDefaults.standard
-    private let key = "Contacts"
     
     private init() {}
     
-    func save<T>(object: T, for key: StorageKeys) {
-        var objects: [T] = getObjects(for: key)
-        objects.append(object)
-        save(objects: objects, for: key)
-        
-    }
+//    func save<T>(object: T, for key: StorageKeys) {
+//        var objects: [String: [T]] = getObjects(for: key)
+//        objects.append(object)
+//        save(objects: objects, for: key)
+//    }
     
-    func save<T>(objects: [T], for key: StorageKeys) {
+    func save<T>(objects: [String: [T]], for key: StorageKeys) {
         userDefaults.set(objects, forKey: key.rawValue)
         
     }
     
-    func getObjects<T>(for key: StorageKeys) -> [T] {
-        if let objects = userDefaults.value(forKey: key.rawValue) as? [T] {
+    func getObjects<T>(for key: StorageKeys) -> [String: [T]] {
+        if let objects = userDefaults.value(forKey: key.rawValue) as? [String: [T]] {
             return objects
         }
-        return []
+        return [:]
     }
     
     func deleteObjects(for key: StorageKeys) {

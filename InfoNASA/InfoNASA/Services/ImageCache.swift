@@ -6,11 +6,10 @@
 //
 
 import UIKit
-import Alamofire
 
 protocol ImageCacheProtocol {
-    func getImageFromCache(url: String) -> UIImage?
-    func saveImageToCache(url: String, image: UIImage)
+    func getImage(url: String) -> UIImage?
+    func saveImage(url: String, image: UIImage)
 }
 
 class ImageCache: ImageCacheProtocol {
@@ -44,7 +43,7 @@ class ImageCache: ImageCacheProtocol {
         return pathName
     }()
     
-    func getImageFromCache(url: String) -> UIImage? {
+    func getImage(url: String) -> UIImage? {
         
         if let cached = images[url] {
             return cached
@@ -55,7 +54,7 @@ class ImageCache: ImageCacheProtocol {
         return nil
     }
     
-    func saveImageToCache(url: String, image: UIImage) {
+    func saveImage(url: String, image: UIImage) {
         images[url] = image
         
         if let filePath = getFilePath(url: url),

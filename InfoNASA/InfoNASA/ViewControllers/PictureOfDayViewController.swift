@@ -10,29 +10,66 @@ import UIKit
 class PictureOfDayViewController: UIViewController {
 
     //MARK: - Views
-    var scrollView = UIScrollView()
-    var titleLabel = UILabel()
-    var imageView = UIImageView()
-    var copyrightLabel = UILabel()
-    var dateLabel = UILabel()
-    var explanationLabel = UILabel()
-    var urlLabel = UILabel()
-    var activityIndicator = UIActivityIndicatorView()
+    private lazy var scrollView = UIScrollView()
+    
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.numberOfLines = 0
+        titleLabel.font = .systemFont(ofSize: 22)
+        titleLabel.contentMode = .left
+        return titleLabel
+    }()
+    
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    private lazy var copyrightLabel: UILabel = {
+        let copyrightLabel = UILabel()
+        copyrightLabel.contentMode = .right
+        return copyrightLabel
+    }()
+    
+    private lazy var dateLabel: UILabel = {
+        let dateLabel = UILabel()
+        dateLabel.contentMode = .left
+        return dateLabel
+    }()
+    
+    private lazy var explanationLabel: UILabel = {
+        let explanationLabel = UILabel()
+        explanationLabel.numberOfLines = 0
+        explanationLabel.contentMode = .left
+        return explanationLabel
+    }()
+    
+    private lazy var urlLabel: UILabel = {
+        let urlLabel = UILabel()
+        urlLabel.numberOfLines = 1
+        urlLabel.textColor = .systemBlue
+        urlLabel.contentMode = .left
+        return urlLabel
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         view.addSubview(scrollView)
-        scrollView.addSubview(copyrightLabel)
-        scrollView.addSubview(dateLabel)
-        scrollView.addSubview(imageView)
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(explanationLabel)
-        scrollView.addSubview(urlLabel)
-        scrollView.addSubview(activityIndicator)
-        
-        configureActivityIndicator()
+        addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, urlLabel, activityIndicator)
+        setConstraints()
         
         NetworkManager.shared.fetchPictureOfDay { [weak self] result in
             switch result {
@@ -44,8 +81,6 @@ class PictureOfDayViewController: UIViewController {
                 print(error)
             }
         }
-        
-        setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,113 +90,87 @@ class PictureOfDayViewController: UIViewController {
         
     }
     
+    private func addScrollViewSubviews(_ views:UIView...) {
+        for view in views {
+            scrollView.addSubview(view)
+        }
+    }
+    
+    //MARK: - Constraints
     private func setConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        copyrightLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        explanationLabel.translatesAutoresizingMaskIntoConstraints = false
-        urlLabel.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        let scrollViewConstraints = [
+        NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ]
+        ])
         
-        let copyrightLabelConstraints = [
-            copyrightLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
-            copyrightLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20)
-        ]
-        
-        let dateLabelConstraints = [
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             dateLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
             dateLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20)
-        ]
+        ])
         
-        let imageViewConstraints = [
+        copyrightLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            copyrightLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
+            copyrightLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20)
+        ])
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20)
+        ])
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
             imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
             imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.8)
-        ]
+        ])
         
-        let activityIndicatorConstraints = [
-            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-        ]
-        
-        let titleLabelConstraints = [
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20)
-        ]
-        
-        let explanationLabelConstraints = [
+        explanationLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             explanationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             explanationLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             explanationLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-        ]
+        ])
         
-        let urlLabelConstraints = [
+        urlLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
             urlLabel.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: 20),
             urlLabel.leadingAnchor.constraint(equalTo: explanationLabel.leadingAnchor),
             urlLabel.trailingAnchor.constraint(equalTo: explanationLabel.trailingAnchor),
             urlLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40)
         
-        ]
+        ])
         
-        NSLayoutConstraint.activate(scrollViewConstraints)
-        NSLayoutConstraint.activate(dateLabelConstraints)
-        NSLayoutConstraint.activate(copyrightLabelConstraints)
-        NSLayoutConstraint.activate(imageViewConstraints)
-        NSLayoutConstraint.activate(activityIndicatorConstraints)
-        NSLayoutConstraint.activate(titleLabelConstraints)
-        NSLayoutConstraint.activate(explanationLabelConstraints)
-        NSLayoutConstraint.activate(urlLabelConstraints)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+        ])
     }
 
+    //MARK: - Changing methods
     private func configureLabels(with picture: PictureOfDay) {
         dateLabel.text = picture.date
-        dateLabel.contentMode = .left
-        
-        copyrightLabel.text = ""
-        copyrightLabel.contentMode = .right
-        
-        titleLabel.numberOfLines = 0
         titleLabel.text = picture.title
-        titleLabel.font = .systemFont(ofSize: 22)
-        titleLabel.contentMode = .left
-        
-        explanationLabel.numberOfLines = 0
+        copyrightLabel.text = ""
         explanationLabel.text = picture.explanation
-        explanationLabel.contentMode = .left
-        
-        urlLabel.numberOfLines = 1
         urlLabel.text = picture.url
-        urlLabel.textColor = .systemBlue
-        urlLabel.contentMode = .left
     }
     
     private func configureImage(with picture: PictureOfDay) {
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
-        imageView.contentMode = .scaleAspectFill
-        
         ImageManager.shared.fetchImage(for: picture.url) { [weak self] image in
             self?.imageView.image = image
             self?.activityIndicator.stopAnimating()
         }
         imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
-    }
-    
-    private func configureActivityIndicator() {
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .large
-        activityIndicator.startAnimating()
     }
 }

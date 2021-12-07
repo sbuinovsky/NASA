@@ -182,7 +182,7 @@ class ImageManager {
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void) {
         guard let url = URL(string: imagePath) else { return }
 
-        if let cachedImage = ImageCache.shared.getImageFromCache(url: imagePath) {
+        if let cachedImage = ImageCache.shared.getImage(url: imagePath) {
             completion(cachedImage)
         }
         
@@ -194,7 +194,7 @@ class ImageManager {
             
             guard let image = UIImage(data: data) else { return }
             
-            ImageCache.shared.saveImageToCache(url: imagePath, image: image)
+            ImageCache.shared.saveImage(url: imagePath, image: image)
             
             DispatchQueue.main.async {
                 completion(image)

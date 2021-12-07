@@ -9,11 +9,41 @@ import UIKit
 
 class NearObjectsViewController: UIViewController {
 
-    var tableView = UITableView()
-    var activityIndicator = UIActivityIndicatorView()
-    var sliderView = UIView()
-    var sliderLabel = UILabel()
-    var slider = UISlider()
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(NearObjectsCell.self, forCellReuseIdentifier: "nearObjectsCell")
+        tableView.sectionHeaderHeight = 40
+        return tableView
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.startAnimating()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        return activityIndicator
+    }()
+    
+    private lazy var sliderView = UIView()
+    
+    private lazy var sliderLabel: UILabel = {
+        let sliderLabel = UILabel()
+        sliderLabel.text = "Days: \(days)"
+        sliderLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        return sliderLabel
+    }()
+    
+    private lazy var slider: UISlider = {
+        let slider = UISlider()
+        slider.minimumValue = 1
+        slider.maximumValue = 5
+        slider.value = Float(days)
+        slider.addTarget(self, action: #selector(sliderEndChanging), for: .touchUpInside)
+        slider.addTarget(self, action: #selector(sliderChanging), for: .valueChanged)
+        return slider
+    }()
     
     private var objects: [String: [NearEarthObject]] = [:]
     private var objectsKeys: [String] = []
@@ -24,16 +54,8 @@ class NearObjectsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        view.addSubview(sliderView)
-        sliderView.addSubview(sliderLabel)
-        sliderView.addSubview(slider)
-        configureSlider()
-        configureSliderLabel()
-        
-        view.addSubview(tableView)
-        view.addSubview(activityIndicator)
-        configureTableView()
-        configureActivityIndicator()
+        addSubviews(sliderView, tableView, activityIndicator)
+        addSliderViewSubviews(sliderLabel, slider)
         setConstraints()
         
         updateTableView(for: days)
@@ -44,29 +66,68 @@ class NearObjectsViewController: UIViewController {
         
         tabBarController?.title = "Near Earth objects"
     }
-    
-    private func configureSliderLabel() {
-        sliderLabel.text = "Days: \(days)"
-        sliderLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+
+    private func addSubviews(_ views: UIView...) {
+        for view in views {
+            self.view.addSubview(view)
+        }
     }
     
-    private func configureSlider() {
-        slider.minimumValue = 1
-        slider.maximumValue = 5
-        slider.value = Float(days)
-        slider.addTarget(self, action: #selector(sliderEndChanging), for: .touchUpInside)
-        slider.addTarget(self, action: #selector(sliderChanging), for: .valueChanged)
+    private func addSliderViewSubviews(_ views: UIView...) {
+        for view in views {
+            sliderView.addSubview(view)
+        }
     }
     
+    //MARK: - Constraints
+    private func setConstraints() {
+        sliderView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            sliderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            sliderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            sliderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
+        
+        sliderLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            sliderLabel.topAnchor.constraint(equalTo: sliderView.topAnchor, constant: 10),
+            sliderLabel.leadingAnchor.constraint(equalTo: sliderView.leadingAnchor, constant: 20),
+            sliderLabel.trailingAnchor.constraint(equalTo: sliderView.trailingAnchor, constant: -20)
+        ])
+        
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            slider.topAnchor.constraint(equalTo: sliderLabel.bottomAnchor, constant: 10),
+            slider.centerXAnchor.constraint(equalTo: sliderLabel.centerXAnchor),
+            slider.widthAnchor.constraint(equalTo: sliderLabel.widthAnchor),
+            slider.bottomAnchor.constraint(equalTo: sliderView.bottomAnchor, constant: -10)
+        ])
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: sliderView.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: tableView.centerYAnchor)
+        ])
+    }
+    
+    //MARK: - Changing methods
     private func updateSlider() {
         slider.value = Float(days)
+        sliderLabel.text = "Days: \(days)"
     }
     
     @objc
     private func sliderEndChanging(sender: UISlider) {
         activityIndicator.startAnimating()
         tableView.layer.opacity = 0.2
-        configureSliderLabel()
         updateSlider()
         updateTableView(for: days)
     }
@@ -74,66 +135,7 @@ class NearObjectsViewController: UIViewController {
     @objc
     private func sliderChanging(sender: UISlider) {
         days = Int(sender.value)
-        configureSliderLabel()
-    }
-    
-    private func configureTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(NearObjectsCell.self, forCellReuseIdentifier: "nearObjectsCell")
-        tableView.sectionHeaderHeight = 40
-    }
-    
-    private func configureActivityIndicator() {
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .large
-        tableView.layer.opacity = 0.2
-    }
-    
-    private func setConstraints() {
-        sliderView.translatesAutoresizingMaskIntoConstraints = false
-        sliderLabel.translatesAutoresizingMaskIntoConstraints = false
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        let sliderViewConstraints = [
-            sliderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            sliderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            sliderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
-        ]
-        
-        let sliderLabelConstraints = [
-            sliderLabel.topAnchor.constraint(equalTo: sliderView.topAnchor, constant: 10),
-            sliderLabel.leadingAnchor.constraint(equalTo: sliderView.leadingAnchor, constant: 20),
-            sliderLabel.trailingAnchor.constraint(equalTo: sliderView.trailingAnchor, constant: -20)
-        ]
-        
-        let sliderConstraints = [
-            slider.topAnchor.constraint(equalTo: sliderLabel.bottomAnchor, constant: 10),
-            slider.centerXAnchor.constraint(equalTo: sliderLabel.centerXAnchor),
-            slider.widthAnchor.constraint(equalTo: sliderLabel.widthAnchor),
-            slider.bottomAnchor.constraint(equalTo: sliderView.bottomAnchor, constant: -10)
-        ]
-        
-        let tableViewConstraints = [
-            tableView.topAnchor.constraint(equalTo: sliderView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ]
-        
-        let activityIndicatorConstraints = [
-            activityIndicator.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: tableView.centerYAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(sliderViewConstraints)
-        NSLayoutConstraint.activate(sliderLabelConstraints)
-        NSLayoutConstraint.activate(sliderConstraints)
-        NSLayoutConstraint.activate(tableViewConstraints)
-        NSLayoutConstraint.activate(activityIndicatorConstraints)
+        sliderLabel.text = "Days: \(days)"
     }
     
     private func updateTableView(for days: Int) {
@@ -164,6 +166,7 @@ class NearObjectsViewController: UIViewController {
     }
 }
 
+//MARK: - Extension for TableView
 extension NearObjectsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {

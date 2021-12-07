@@ -10,7 +10,14 @@ import UIKit
 class EPICViewController: UIViewController {
 
     //MARK: - Views
-    var tableView = UITableView()
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(EPICCell.self, forCellReuseIdentifier: "EPICCell")
+        tableView.separatorStyle = .none
+        return tableView
+    }()
     
     private var pictures: [PictureOfEPIC] = []
     
@@ -19,11 +26,7 @@ class EPICViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(tableView)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(EPICCell.self, forCellReuseIdentifier: "EPICCell")
-        tableView.separatorStyle = .none
+        setConstraints()
         
         NetworkManager.shared.fetchPictureOfEPIC { [weak self] result in
             switch result {
@@ -35,8 +38,6 @@ class EPICViewController: UIViewController {
                 print(error)
             }
         }
-        
-        setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,18 +48,16 @@ class EPICViewController: UIViewController {
     
     private func setConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let tableViewConstraints = [
+        NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(tableViewConstraints)
+        ])
     }
 }
 
+//MARK: - Extension for TableView
 extension EPICViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
@@ -75,5 +74,4 @@ extension EPICViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-    
 }
