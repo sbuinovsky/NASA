@@ -9,6 +9,7 @@ import UIKit
 
 class EPICCell: UITableViewCell {
 
+    //MARK: - Views
     private lazy var photoImageView: UIImageView = {
         let photoImageView = UIImageView()
         photoImageView.clipsToBounds = true
@@ -45,6 +46,7 @@ class EPICCell: UITableViewCell {
         }
     }
     
+    //MARK: - Constraints
     private func setConstraints() {
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -68,6 +70,7 @@ class EPICCell: UITableViewCell {
         ])
     }
     
+    //MARK: - Changing methods
     private func configureImage(with picture: PictureOfEPIC) {
         let imagePath = ImageManager.shared.generateEPICImageURLPath(for: picture)
         ImageManager.shared.fetchImage(for: imagePath) { [weak self] image in

@@ -46,6 +46,7 @@ class EPICViewController: UIViewController {
         tabBarController?.title = "Polychromatic camera"
     }
     
+    //MARK: - Constraints
     private func setConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

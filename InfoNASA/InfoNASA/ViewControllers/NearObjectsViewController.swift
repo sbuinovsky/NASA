@@ -9,6 +9,7 @@ import UIKit
 
 class NearObjectsViewController: UIViewController {
 
+    //MARK: - Views
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self

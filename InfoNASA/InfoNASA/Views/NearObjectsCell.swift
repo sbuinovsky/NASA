@@ -9,6 +9,7 @@ import UIKit
 
 class NearObjectsCell: UITableViewCell {
 
+    //MARK: - Views
     private lazy var iconImage: UIImageView = {
         let iconImage = UIImageView()
         iconImage.clipsToBounds = true
@@ -76,6 +77,7 @@ class NearObjectsCell: UITableViewCell {
         ])
     }
     
+    //MARK: - Changing methods
     private func configureLabels(for object: NearEarthObject) {
         nameLabel.text = object.name
         absoluteMagnitudeLabel.text = "Magnitude: \(object.absoluteMagnitudeH)"
