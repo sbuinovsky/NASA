@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol ImageCacheProtocol {
+protocol CacheManagerProtocol {
     func getImage(url: String) -> UIImage?
     func saveImage(url: String, image: UIImage)
 }
 
-class ImageCache: ImageCacheProtocol {
+class CacheManager: CacheManagerProtocol {
     
-    static var shared = ImageCache()
+    static var shared = CacheManager()
     
     private init() {}
     
@@ -61,7 +61,6 @@ class ImageCache: ImageCacheProtocol {
             let data = image.pngData() {
             FileManager.default.createFile(atPath: filePath, contents: data, attributes: nil)
         }
-        
     }
     
     private func getFilePath(url: String) -> String? {
@@ -71,7 +70,7 @@ class ImageCache: ImageCacheProtocol {
         let fileNameURL = url.split(separator: "/").last ?? "default"
         let fileName = fileNameURL.split(separator: "?").first ?? "default"
         
-        return cacheDirectory.appendingPathComponent(ImageCache.cachePath + fileName).path
+        return cacheDirectory.appendingPathComponent(CacheManager.cachePath + fileName).path
     }
     
     private func getImageFromFile(url: String) -> UIImage? {

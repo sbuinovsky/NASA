@@ -72,8 +72,8 @@ class EPICCell: UITableViewCell {
     
     //MARK: - Changing methods
     private func configureImage(with picture: PictureOfEPIC) {
-        let imagePath = ImageManager.shared.generateEPICImageURLPath(for: picture)
-        ImageManager.shared.fetchImage(for: imagePath) { [weak self] image in
+        let imagePath = NetworkManager.shared.generateEPICImageURLPath(for: picture)
+        NetworkManager.shared.fetchImage(for: imagePath) { [weak self] image in
             self?.photoImageView.image = image
             self?.activityIndicator.stopAnimating()
         }

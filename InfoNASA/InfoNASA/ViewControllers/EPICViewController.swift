@@ -28,7 +28,7 @@ class EPICViewController: UIViewController {
         view.addSubview(tableView)
         setConstraints()
         
-        NetworkManager.shared.fetchPictureOfEPIC { [weak self] result in
+        NetworkManager.shared.fetchPicturesOfEPIC { [weak self] result in
             switch result {
             case .success( let picturesOfEPIC):
                 guard let picturesOfEPIC = picturesOfEPIC else { return }

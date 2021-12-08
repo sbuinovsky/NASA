@@ -167,7 +167,7 @@ class PictureOfDayViewController: UIViewController {
     }
     
     private func configureImage(with picture: PictureOfDay) {
-        ImageManager.shared.fetchImage(for: picture.url) { [weak self] image in
+        NetworkManager.shared.fetchImage(for: picture.url) { [weak self] image in
             self?.imageView.image = image
             self?.activityIndicator.stopAnimating()
         }

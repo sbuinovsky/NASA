@@ -5,57 +5,52 @@
 //  Created by Станислав Буйновский on 04.12.2021.
 //
 
+//import UIKit
+//import CoreData
 //
-//  StorageManager.swift
-//  UIAdaptivePresentation
+//protocol StorageManagerProtocol {
+//    func fetchData<T: NSManagedObject>() -> [T]
+//    func getFromContext<T: NSManagedObject>() -> T
+//    func delete<T: NSManagedObject>(_ object: T)
+//    func updateContext()
+//}
 //
-//  Created by Alexey Efimov on 02.12.2021.
-//  Copyright © 2021 Alexey Efimov. All rights reserved.
+//class StorageManager: StorageManagerProtocol {
 //
-
-import Foundation
-
-protocol StorageManagerProtocol {
-//    func save<T>(object: T, for key: StorageKeys)
-    func save<T>(objects: [String: [T]], for key: StorageKeys)
-    func getObjects<T>(for key: StorageKeys) -> [String: [T]]
-    func deleteObjects(for key: StorageKeys)
-}
-
-enum StorageKeys: String {
-    case picturesOfDay
-    case nearEarthObjects
-    case picturesOfEPIC
-}
-
-class StorageManager: StorageManagerProtocol {
-    
-    static let shared = StorageManager()
-    
-    private let userDefaults = UserDefaults.standard
-    
-    private init() {}
-    
-//    func save<T>(object: T, for key: StorageKeys) {
-//        var objects: [String: [T]] = getObjects(for: key)
-//        objects.append(object)
-//        save(objects: objects, for: key)
+//    static var shared = StorageManager()
+//    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//
+//    private init() {}
+//
+//    func fetchData<T: NSManagedObject>() -> [T] {
+//        let fetchRequest = T.fetchRequest()
+//
+//        do {
+//            return try context.fetch(fetchRequest) as? [T] ?? []
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//
+//        return []
 //    }
-    
-    func save<T>(objects: [String: [T]], for key: StorageKeys) {
-        userDefaults.set(objects, forKey: key.rawValue)
-        
-    }
-    
-    func getObjects<T>(for key: StorageKeys) -> [String: [T]] {
-        if let objects = userDefaults.value(forKey: key.rawValue) as? [String: [T]] {
-            return objects
-        }
-        return [:]
-    }
-    
-    func deleteObjects(for key: StorageKeys) {
-        userDefaults.removeObject(forKey: key.rawValue)
-    }
-}
-
+//
+//    func getFromContext<T: NSManagedObject>() -> T {
+//        let object = T(context: context)
+//        return object
+//    }
+//
+//    func delete<T: NSManagedObject>(_ object: T) {
+//        context.delete(object)
+//        updateContext()
+//    }
+//
+//    func updateContext() {
+//        if context.hasChanges {
+//            do {
+//                try context.save()
+//            } catch let error {
+//                print(error)
+//            }
+//        }
+//    }
+//}
