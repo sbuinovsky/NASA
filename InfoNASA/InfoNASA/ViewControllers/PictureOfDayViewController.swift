@@ -66,6 +66,7 @@ class PictureOfDayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        tabBarController?.title = "Picture of the Day"
         
         view.addSubview(scrollView)
         addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, urlLabel, activityIndicator)
@@ -81,13 +82,6 @@ class PictureOfDayViewController: UIViewController {
                 print(error)
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tabBarController?.title = "Picture of the Day"
-        
     }
     
     private func addScrollViewSubviews(_ views:UIView...) {
@@ -171,6 +165,6 @@ class PictureOfDayViewController: UIViewController {
             self?.imageView.image = image
             self?.activityIndicator.stopAnimating()
         }
-        imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
+        imageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
     }
 }

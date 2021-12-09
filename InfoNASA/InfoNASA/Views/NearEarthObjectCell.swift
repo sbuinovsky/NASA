@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NearObjectsCell: UITableViewCell {
+class NearEarthObjectCell: UITableViewCell {
 
     //MARK: - Views
     private lazy var iconImage: UIImageView = {
@@ -15,6 +15,7 @@ class NearObjectsCell: UITableViewCell {
         iconImage.clipsToBounds = true
         iconImage.contentMode = .scaleAspectFit
         iconImage.image = UIImage(systemName: "circle.hexagonpath")
+        iconImage.tintColor = UIColor(named: "mainBlueColor")
         return iconImage
     }()
     

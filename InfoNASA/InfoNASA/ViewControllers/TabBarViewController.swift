@@ -15,6 +15,8 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         modalPresentationStyle = .fullScreen
         delegate = self
         addControllers()
+        self.tabBar.selectedImageTintColor = UIColor(named: "mainBlueColor")
+        
     }
 
     private func addControllers() {
@@ -25,14 +27,14 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         tabBarItem.imageInsets = UIEdgeInsets(top: 85, left: 85, bottom: 85, right: 85)
         pictureOfDayVC.tabBarItem = tabBarItem
         
-        let nearObjectsVC = NearObjectsViewController()
+        let nearObjectsVC = NearEarthObjectListViewController()
         let tabBarItem1 = UITabBarItem(title: "NEO",
                                        image: UIImage(systemName: "allergens"),
                                        selectedImage: UIImage(systemName: "allergens"))
         tabBarItem1.imageInsets = UIEdgeInsets(top: 85, left: 85, bottom: 85, right: 85)
         nearObjectsVC.tabBarItem = tabBarItem1
         
-        let epicVC = EPICViewController()
+        let epicVC = PictureOfEPICListViewController()
         let tabBarItem2 = UITabBarItem(title: "EPIC",
                                        image: UIImage(systemName: "globe.europe.africa"),
                                        selectedImage: UIImage(systemName: "globe.europe.africa"))

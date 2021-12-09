@@ -7,14 +7,14 @@
 
 import UIKit
 
-class NearObjectsViewController: UIViewController {
+class NearEarthObjectListViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NearObjectsCell.self, forCellReuseIdentifier: "nearObjectsCell")
+        tableView.register(NearEarthObjectCell.self, forCellReuseIdentifier: "nearObjectsCell")
         tableView.sectionHeaderHeight = 40
         return tableView
     }()
@@ -38,6 +38,7 @@ class NearObjectsViewController: UIViewController {
     
     private lazy var slider: UISlider = {
         let slider = UISlider()
+        slider.tintColor = UIColor(named: "mainBlueColor")
         slider.minimumValue = 1
         slider.maximumValue = 5
         slider.value = Float(days)
@@ -54,6 +55,7 @@ class NearObjectsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        tabBarController?.title = "Near Earth objects"
         
         addSubviews(sliderView, tableView, activityIndicator)
         addSliderViewSubviews(sliderLabel, slider)
@@ -62,12 +64,6 @@ class NearObjectsViewController: UIViewController {
         updateTableView(for: days)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tabBarController?.title = "Near Earth objects"
-    }
-
     private func addSubviews(_ views: UIView...) {
         for view in views {
             self.view.addSubview(view)
@@ -168,7 +164,7 @@ class NearObjectsViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension NearObjectsViewController: UITableViewDataSource, UITableViewDelegate {
+extension NearEarthObjectListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         tempObjectsKeys.count
@@ -180,7 +176,7 @@ extension NearObjectsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "nearObjectsCell", for: indexPath) as! NearObjectsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "nearObjectsCell", for: indexPath) as! NearEarthObjectCell
 
         tableView.deselectRow(at: indexPath, animated: true)
 
@@ -195,5 +191,15 @@ extension NearObjectsViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         "Date: \(tempObjectsKeys[section])"
+    }
+    
+    //MARK: - Navigation
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nearEarthObjectDetailedVC = NearEarthObjectDetailedViewController()
+        let key = tempObjectsKeys[indexPath.section]
+        let object = objects[key]?[indexPath.row]
+        nearEarthObjectDetailedVC.object = object
+        self.navigationController?.pushViewController(nearEarthObjectDetailedVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

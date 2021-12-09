@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EPICCell: UITableViewCell {
+class PictureOfEPICCell: UITableViewCell {
 
     //MARK: - Views
     private lazy var photoImageView: UIImageView = {
@@ -77,7 +77,7 @@ class EPICCell: UITableViewCell {
             self?.photoImageView.image = image
             self?.activityIndicator.stopAnimating()
         }
-        photoImageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
+        photoImageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
     }
     
     private func configureLabels(with picture: PictureOfEPIC) {
