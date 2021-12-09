@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NearObjectsCell: UITableViewCell {
+class NearEarthObjectCell: UITableViewCell {
 
     //MARK: - Views
     private lazy var iconImage: UIImageView = {

@@ -7,14 +7,14 @@
 
 import UIKit
 
-class EPICViewController: UIViewController {
+class PictureOfEPICListViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(EPICCell.self, forCellReuseIdentifier: "EPICCell")
+        tableView.register(PictureOfEPICCell.self, forCellReuseIdentifier: "EPICCell")
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -34,6 +34,9 @@ class EPICViewController: UIViewController {
                 guard let picturesOfEPIC = picturesOfEPIC else { return }
                 self?.pictures = picturesOfEPIC
                 self?.tableView.reloadData()
+                for picture in self?.pictures ?? [] {
+                    print(picture)
+                }
             case .failure(let error):
                 print(error)
             }
@@ -59,13 +62,13 @@ class EPICViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension EPICViewController: UITableViewDataSource, UITableViewDelegate {
+extension PictureOfEPICListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICCell", for: indexPath) as! EPICCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICCell", for: indexPath) as! PictureOfEPICCell
         
         tableView.deselectRow(at: indexPath, animated: false)
         
@@ -74,5 +77,14 @@ extension EPICViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(with: picture)
         
         return cell
+    }
+    
+    //MARK: - Navigation
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let pictureOfEPICDetailedVC = PictureOfEPICDetailedViewController()
+        let object = pictures[indexPath.row]
+        pictureOfEPICDetailedVC.object = object
+        self.navigationController?.pushViewController(pictureOfEPICDetailedVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

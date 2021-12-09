@@ -171,6 +171,6 @@ class PictureOfDayViewController: UIViewController {
             self?.imageView.image = image
             self?.activityIndicator.stopAnimating()
         }
-        imageView.animate(animation: .opacity, withDuration: 0.7, repeatCount: 0)
+        imageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
     }
 }

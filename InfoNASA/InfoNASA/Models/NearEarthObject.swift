@@ -38,7 +38,7 @@ struct NearEarthObject: Codable {
     let absoluteMagnitudeH: Double
     let estimatedDiameter: EstimatedDiameter
     let isPotentiallyHazardousAsteroid: Bool
-    let closeApproachData: [CloseApproachDatum]
+    let closeApproachData: [CloseApproachData]
     let isSentryObject: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -54,12 +54,26 @@ struct NearEarthObject: Codable {
     }
     
     var description: String {
-        "TEST SOME"
+        """
+        id: \(id)
+        
+        Potentially Hazardous: \(isPotentiallyHazardousAsteroid ? "yes" : "no" )
+        Sentry object: \(isSentryObject ? "yes" : "no" )
+        
+        Absolute magnitude: \(absoluteMagnitudeH)
+        
+        Estimated diameter:
+        \(estimatedDiameter.description)
+        
+        Close approach:
+        \(closeApproachData.first?.description ?? "")
+        
+        """
     }
 }
 
 // MARK: - CloseApproachDatum
-struct CloseApproachDatum: Codable {
+struct CloseApproachData: Codable {
     let closeApproachDate, closeApproachDateFull: String
     let epochDateCloseApproach: Int
     let relativeVelocity: RelativeVelocity
@@ -73,6 +87,22 @@ struct CloseApproachDatum: Codable {
         case relativeVelocity = "relative_velocity"
         case missDistance = "miss_distance"
         case orbitingBody = "orbiting_body"
+    }
+    
+    var description: String {
+        """
+                Date: \(closeApproachDateFull)
+                Orbiting body: \(orbitingBody)
+                Relative velocity:
+                    km/s: \(relativeVelocity.kilometersPerSecond)
+                    km/h: \(relativeVelocity.kilometersPerHour)
+                    miles/h: \(relativeVelocity.milesPerHour)
+                Miss distance:
+                    Astronomical: \(missDistance.astronomical)
+                    Lunar: \(missDistance.lunar)
+                    Kilometers: \(missDistance.kilometers)
+                    Miles: \(missDistance.miles)
+        """
     }
 }
 
@@ -99,6 +129,23 @@ struct RelativeVelocity: Codable {
 // MARK: - EstimatedDiameter
 struct EstimatedDiameter: Codable {
     let kilometers, meters, miles, feet: Feet
+    
+    var description: String {
+        """
+                Kilometers:
+                    max: \(kilometers.estimatedDiameterMax)
+                    min: \(kilometers.estimatedDiameterMin)
+                Meters:
+                    max: \(meters.estimatedDiameterMax)
+                    min: \(meters.estimatedDiameterMin)
+                Miles:
+                    max: \(miles.estimatedDiameterMax)
+                    min: \(miles.estimatedDiameterMin)
+                Feet:
+                    max: \(feet.estimatedDiameterMax)
+                    min: \(feet.estimatedDiameterMin)
+        """
+    }
 }
 
 // MARK: - Feet

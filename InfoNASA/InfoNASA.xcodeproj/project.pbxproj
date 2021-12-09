@@ -18,14 +18,16 @@
 		C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */; };
 		C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */; };
 		C23ADB54273DAF2B0090A6C3 /* PictureOfDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */; };
-		C23ADB56273DBFC90090A6C3 /* NearObjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB55273DBFC90090A6C3 /* NearObjectsViewController.swift */; };
-		C23ADB58273DBFF50090A6C3 /* EPICViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB57273DBFF50090A6C3 /* EPICViewController.swift */; };
+		C23ADB56273DBFC90090A6C3 /* NearEarthObjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB55273DBFC90090A6C3 /* NearEarthObjectListViewController.swift */; };
+		C23ADB58273DBFF50090A6C3 /* PictureOfEPICListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB57273DBFF50090A6C3 /* PictureOfEPICListViewController.swift */; };
 		C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB59273E95FF0090A6C3 /* DataManager.swift */; };
 		C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */; };
 		C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */; };
-		C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */; };
+		C27FEE9127465ACC007D6CE2 /* NearEarthObjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE9027465ACC007D6CE2 /* NearEarthObjectCell.swift */; };
+		C2EDC6162761EDA200C4F722 /* NearEarthObjectDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC6152761EDA200C4F722 /* NearEarthObjectDetailedViewController.swift */; };
+		C2EDC618276219B200C4F722 /* PictureOfEPICDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC617276219B200C4F722 /* PictureOfEPICDetailedViewController.swift */; };
 		C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */; };
-		C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* EPICCell.swift */; };
+		C2EED8F9274AF63100E86A1D /* PictureOfEPICCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* PictureOfEPICCell.swift */; };
 		C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE32752304800AAD03C /* NetworkManager.swift */; };
 		C2F2DFE62752335400AAD03C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE52752335400AAD03C /* Constants.swift */; };
 		C2F2DFE827540A5D00AAD03C /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE727540A5D00AAD03C /* Extension + UIView.swift */; };
@@ -45,14 +47,16 @@
 		C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationViewController.swift; sourceTree = "<group>"; };
 		C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDayViewController.swift; sourceTree = "<group>"; };
-		C23ADB55273DBFC90090A6C3 /* NearObjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearObjectsViewController.swift; sourceTree = "<group>"; };
-		C23ADB57273DBFF50090A6C3 /* EPICViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICViewController.swift; sourceTree = "<group>"; };
+		C23ADB55273DBFC90090A6C3 /* NearEarthObjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearEarthObjectListViewController.swift; sourceTree = "<group>"; };
+		C23ADB57273DBFF50090A6C3 /* PictureOfEPICListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPICListViewController.swift; sourceTree = "<group>"; };
 		C23ADB59273E95FF0090A6C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C23ADB5B273E97560090A6C3 /* PictureOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfDay.swift; sourceTree = "<group>"; };
 		C27FEE8E27463656007D6CE2 /* NearEarthObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearEarthObject.swift; sourceTree = "<group>"; };
-		C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearObjectsCell.swift; sourceTree = "<group>"; };
+		C27FEE9027465ACC007D6CE2 /* NearEarthObjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearEarthObjectCell.swift; sourceTree = "<group>"; };
+		C2EDC6152761EDA200C4F722 /* NearEarthObjectDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearEarthObjectDetailedViewController.swift; sourceTree = "<group>"; };
+		C2EDC617276219B200C4F722 /* PictureOfEPICDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPICDetailedViewController.swift; sourceTree = "<group>"; };
 		C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPIC.swift; sourceTree = "<group>"; };
-		C2EED8F8274AF63100E86A1D /* EPICCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICCell.swift; sourceTree = "<group>"; };
+		C2EED8F8274AF63100E86A1D /* PictureOfEPICCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPICCell.swift; sourceTree = "<group>"; };
 		C2F2DFE32752304800AAD03C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C2F2DFE52752335400AAD03C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C2F2DFE727540A5D00AAD03C /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
@@ -136,8 +140,8 @@
 		C20E2AD4273D250B009A194D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C27FEE9027465ACC007D6CE2 /* NearObjectsCell.swift */,
-				C2EED8F8274AF63100E86A1D /* EPICCell.swift */,
+				C27FEE9027465ACC007D6CE2 /* NearEarthObjectCell.swift */,
+				C2EED8F8274AF63100E86A1D /* PictureOfEPICCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -148,8 +152,10 @@
 				C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */,
 				C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */,
 				C23ADB53273DAF2B0090A6C3 /* PictureOfDayViewController.swift */,
-				C23ADB55273DBFC90090A6C3 /* NearObjectsViewController.swift */,
-				C23ADB57273DBFF50090A6C3 /* EPICViewController.swift */,
+				C23ADB55273DBFC90090A6C3 /* NearEarthObjectListViewController.swift */,
+				C2EDC6152761EDA200C4F722 /* NearEarthObjectDetailedViewController.swift */,
+				C23ADB57273DBFF50090A6C3 /* PictureOfEPICListViewController.swift */,
+				C2EDC617276219B200C4F722 /* PictureOfEPICDetailedViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -308,23 +314,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				C20E2AC0273D24BB009A194D /* AppDelegate.swift in Sources */,
+				C2EDC618276219B200C4F722 /* PictureOfEPICDetailedViewController.swift in Sources */,
 				C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */,
 				C27FEE8F27463656007D6CE2 /* NearEarthObject.swift in Sources */,
 				C22A9551275C0069005016FF /* StorageManager.swift in Sources */,
-				C2EED8F9274AF63100E86A1D /* EPICCell.swift in Sources */,
+				C2EED8F9274AF63100E86A1D /* PictureOfEPICCell.swift in Sources */,
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
 				C2F2DFE62752335400AAD03C /* Constants.swift in Sources */,
 				C20E2AC2273D24BB009A194D /* SceneDelegate.swift in Sources */,
-				C23ADB56273DBFC90090A6C3 /* NearObjectsViewController.swift in Sources */,
+				C23ADB56273DBFC90090A6C3 /* NearEarthObjectListViewController.swift in Sources */,
 				C23ADB54273DAF2B0090A6C3 /* PictureOfDayViewController.swift in Sources */,
 				C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */,
 				C2F2DFE827540A5D00AAD03C /* Extension + UIView.swift in Sources */,
 				C22A9553275C22C5005016FF /* CacheManager.swift in Sources */,
-				C23ADB58273DBFF50090A6C3 /* EPICViewController.swift in Sources */,
+				C23ADB58273DBFF50090A6C3 /* PictureOfEPICListViewController.swift in Sources */,
 				C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */,
+				C2EDC6162761EDA200C4F722 /* NearEarthObjectDetailedViewController.swift in Sources */,
 				C23ADB5C273E97560090A6C3 /* PictureOfDay.swift in Sources */,
 				C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */,
-				C27FEE9127465ACC007D6CE2 /* NearObjectsCell.swift in Sources */,
+				C27FEE9127465ACC007D6CE2 /* NearEarthObjectCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
