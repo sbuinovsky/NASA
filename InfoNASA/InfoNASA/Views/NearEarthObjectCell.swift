@@ -15,6 +15,7 @@ class NearEarthObjectCell: UITableViewCell {
         iconImage.clipsToBounds = true
         iconImage.contentMode = .scaleAspectFit
         iconImage.image = UIImage(systemName: "circle.hexagonpath")
+        iconImage.tintColor = UIColor(named: "mainBlueColor")
         return iconImage
     }()
     

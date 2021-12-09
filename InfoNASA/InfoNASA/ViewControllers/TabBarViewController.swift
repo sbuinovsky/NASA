@@ -15,6 +15,8 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         modalPresentationStyle = .fullScreen
         delegate = self
         addControllers()
+        self.tabBar.selectedImageTintColor = UIColor(named: "mainBlueColor")
+        
     }
 
     private func addControllers() {

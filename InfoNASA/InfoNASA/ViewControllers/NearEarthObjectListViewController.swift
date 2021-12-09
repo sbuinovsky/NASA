@@ -38,6 +38,7 @@ class NearEarthObjectListViewController: UIViewController {
     
     private lazy var slider: UISlider = {
         let slider = UISlider()
+        slider.tintColor = UIColor(named: "mainBlueColor")
         slider.minimumValue = 1
         slider.maximumValue = 5
         slider.value = Float(days)
@@ -54,6 +55,7 @@ class NearEarthObjectListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        tabBarController?.title = "Near Earth objects"
         
         addSubviews(sliderView, tableView, activityIndicator)
         addSliderViewSubviews(sliderLabel, slider)
@@ -62,12 +64,6 @@ class NearEarthObjectListViewController: UIViewController {
         updateTableView(for: days)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tabBarController?.title = "Near Earth objects"
-    }
-
     private func addSubviews(_ views: UIView...) {
         for view in views {
             self.view.addSubview(view)

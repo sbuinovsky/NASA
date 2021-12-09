@@ -24,6 +24,7 @@ class PictureOfEPICListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        tabBarController?.title = "Polychromatic camera"
         
         view.addSubview(tableView)
         setConstraints()
@@ -41,12 +42,6 @@ class PictureOfEPICListViewController: UIViewController {
                 print(error)
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tabBarController?.title = "Polychromatic camera"
     }
     
     //MARK: - Constraints
