@@ -13,6 +13,7 @@ TableViews by tapping cells presenting controllers with detailed info about sele
 ## Used technologies
 - MVC
 - URLSession and Alamofire
+- GCD
 - CoreAnimation for images
 - Image cache (Files + RAM)
 - Layout by code
