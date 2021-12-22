@@ -7,8 +7,8 @@
 
 import RealmSwift
 
-// MARK: - NearEarthObjects
-class NearEarthObjects: Codable {
+// MARK: - NEOObjects
+class NEOObjects: Codable {
     let links: NEOObjectsLinks
     let elementCount: Int
     let nearEarthObjects: [String: [NEOObject]]
@@ -38,7 +38,7 @@ class NEOObjectsList: Object {
     @Persisted var neoObjects: List<NEOObject>
 }
 
-// MARK: - NearEarthObject
+// MARK: - NEOObject
 class NEOObject: Object, Codable {
     @Persisted(primaryKey: true) var id: String
     @Persisted var links: NEOObjectLinks?
@@ -82,7 +82,7 @@ class NEOObject: Object, Codable {
     }
 }
 
-// MARK: - NearEarthObjectLinks
+// MARK: - NEOObjectLinks
 class NEOObjectLinks: Object, Codable {
     @Persisted var linksSelf: String
     

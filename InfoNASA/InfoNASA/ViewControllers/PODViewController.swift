@@ -72,7 +72,7 @@ class PODViewController: UIViewController {
         addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, urlLabel, activityIndicator)
         setConstraints()
         
-        NetworkManager.shared.fetchPOD { [unowned self] result in
+        NetworkManager.shared.fetchPODObject { [unowned self] result in
             switch result {
             case .success(let podObject):
                 self.configureLabels(with: podObject)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class NEOListViewController: UIViewController {
 
@@ -14,8 +15,9 @@ class NEOListViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NearEarthObjectCell.self, forCellReuseIdentifier: "nearObjectsCell")
+        tableView.register(NEOObjectCell.self, forCellReuseIdentifier: "nearObjectsCell")
         tableView.sectionHeaderHeight = 40
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -27,40 +29,21 @@ class NEOListViewController: UIViewController {
         return activityIndicator
     }()
     
-    private lazy var sliderView = UIView()
-    
-    private lazy var sliderLabel: UILabel = {
-        let sliderLabel = UILabel()
-        sliderLabel.text = "Days: \(days)"
-        sliderLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-        return sliderLabel
-    }()
-    
-    private lazy var slider: UISlider = {
-        let slider = UISlider()
-        slider.tintColor = UIColor(named: "mainBlueColor")
-        slider.minimumValue = 1
-        slider.maximumValue = 5
-        slider.value = Float(days)
-        slider.addTarget(self, action: #selector(sliderEndChanging), for: .touchUpInside)
-        slider.addTarget(self, action: #selector(sliderChanging), for: .valueChanged)
-        return slider
-    }()
-    
     private var objects: [String: [NEOObject]] = [:]
     private var objectsKeys: [String] = []
     private var tempObjectsKeys: [String] = []
-    private var days: Int = 1
+    private var days: Int = 7
+    
+    private var neoObjectsLists: Results<NEOObjectsList>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        addSubviews(sliderView, tableView, activityIndicator)
-        addSliderViewSubviews(sliderLabel, slider)
+        addSubviews(tableView, activityIndicator)
         setConstraints()
         
-        updateTableView(for: days)
+        neoObjectsLists = StorageManager.shared.realm.objects(NEOObjectsList.self).sorted(byKeyPath: "date", ascending: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,39 +57,11 @@ class NEOListViewController: UIViewController {
         }
     }
     
-    private func addSliderViewSubviews(_ views: UIView...) {
-        for view in views {
-            sliderView.addSubview(view)
-        }
-    }
-    
     //MARK: - Constraints
     private func setConstraints() {
-        sliderView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            sliderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            sliderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            sliderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
-        ])
-        
-        sliderLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            sliderLabel.topAnchor.constraint(equalTo: sliderView.topAnchor, constant: 10),
-            sliderLabel.leadingAnchor.constraint(equalTo: sliderView.leadingAnchor, constant: 20),
-            sliderLabel.trailingAnchor.constraint(equalTo: sliderView.trailingAnchor, constant: -20)
-        ])
-        
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            slider.topAnchor.constraint(equalTo: sliderLabel.bottomAnchor, constant: 10),
-            slider.centerXAnchor.constraint(equalTo: sliderLabel.centerXAnchor),
-            slider.widthAnchor.constraint(equalTo: sliderLabel.widthAnchor),
-            slider.bottomAnchor.constraint(equalTo: sliderView.bottomAnchor, constant: -10)
-        ])
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: sliderView.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -120,25 +75,6 @@ class NEOListViewController: UIViewController {
     }
     
     //MARK: - Changing methods
-    private func updateSlider() {
-        slider.value = Float(days)
-        sliderLabel.text = "Days: \(days)"
-    }
-    
-    @objc
-    private func sliderEndChanging(sender: UISlider) {
-        activityIndicator.startAnimating()
-        tableView.layer.opacity = 0.2
-        updateSlider()
-        updateTableView(for: days)
-    }
-    
-    @objc
-    private func sliderChanging(sender: UISlider) {
-        days = Int(sender.value)
-        sliderLabel.text = "Days: \(days)"
-    }
-    
     private func updateTableView(for days: Int) {
         
         if objects.count >= days {
@@ -149,7 +85,7 @@ class NEOListViewController: UIViewController {
             
         } else {
             let dateInterval = NetworkManager.shared.getDateInterval(for: days)
-            NetworkManager.shared.fetchNearEarthObjects(forDateInterval: dateInterval) { [weak self] result in
+            NetworkManager.shared.fetchNEOObjects(forDateInterval: dateInterval) { [weak self] result in
                 switch result {
                 case .success(let nearEarthObjectsDict):
                     guard let nearEarthObjectsDict = nearEarthObjectsDict else { return }
@@ -170,31 +106,25 @@ class NEOListViewController: UIViewController {
 //MARK: - Extension for TableView
 extension NEOListViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        tempObjectsKeys.count
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let key = tempObjectsKeys[section]
-        return objects[key]?.count ?? 0
+        neoObjectsLists.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "nearObjectsCell", for: indexPath) as! NearEarthObjectCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "nearObjectsCell", for: indexPath) as! NEOObjectCell
 
         tableView.deselectRow(at: indexPath, animated: true)
-
-        let key = tempObjectsKeys[indexPath.section]
-        let object = objects[key]?[indexPath.row]
-        if let object = object {
-            cell.configure(with: object)
-        }
-
+        
+        let neoObjectsList = neoObjectsLists[indexPath.row]
+        
+        var content = cell.defaultContentConfiguration()
+        content.image = UIImage(systemName: "calendar")
+        content.imageProperties.tintColor = UIColor(named: "mainBlueColor")
+        content.text = neoObjectsList.date
+        content.secondaryText = "\(neoObjectsList.neoObjects.count) objects"
+        cell.contentConfiguration = content
+        
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        "Date: \(tempObjectsKeys[section])"
     }
     
     //MARK: - Navigation

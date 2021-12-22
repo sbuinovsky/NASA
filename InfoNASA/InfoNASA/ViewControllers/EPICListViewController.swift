@@ -14,7 +14,7 @@ class EPICListViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(PictureOfEPICCell.self, forCellReuseIdentifier: "EPICCell")
+        tableView.register(EPICObjectCell.self, forCellReuseIdentifier: "EPICCell")
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -28,7 +28,7 @@ class EPICListViewController: UIViewController {
         view.addSubview(tableView)
         setConstraints()
         
-        NetworkManager.shared.fetchPicturesOfEPIC { [weak self] result in
+        NetworkManager.shared.fetchEPICObjects { [weak self] result in
             switch result {
             case .success( let picturesOfEPIC):
                 guard let picturesOfEPIC = picturesOfEPIC else { return }
@@ -67,7 +67,7 @@ extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICCell", for: indexPath) as! PictureOfEPICCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICCell", for: indexPath) as! EPICObjectCell
         
         tableView.deselectRow(at: indexPath, animated: false)
         
