@@ -7,9 +7,9 @@
 
 import UIKit
 
-class NearEarthObjectDetailedViewController: UIViewController {
+class NEODetailedViewController: UIViewController {
 
-    var object: NearEarthObject!
+    var object: NEOObject!
     
     private lazy var scrollView = UIScrollView()
     

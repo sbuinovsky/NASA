@@ -9,9 +9,10 @@ import UIKit
 import Alamofire
 
 protocol NetworkManagerProtocol {
-    func fetchPictureOfDay(completion: @escaping (Result<PictureOfDay?, NetworkError>) -> Void)
+    func fetchPOD(completion: @escaping (Result<PODObject, NetworkError>) -> Void)
+    
     func fetchPicturesOfEPIC(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void)
-    func fetchNearEarthObjects(forDateInterval: [String: String], completion: @escaping(Result<[String: [NearEarthObject]]?, NetworkError>) -> Void)
+    func fetchNearEarthObjects(forDateInterval: [String: String], completion: @escaping(Result<[String: [NEOObject]]?, NetworkError>) -> Void)
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void)
     func generateEPICImageURLPath(for picture: PictureOfEPIC) -> String
     func getDateInterval(from startDate: Date, to endDate: Date) -> [String: String]
@@ -37,27 +38,36 @@ class NetworkManager: NetworkManagerProtocol {
     private init() {}
     
     //MARK: - Public methods
-    func fetchPictureOfDay(completion: @escaping (Result<PictureOfDay?, NetworkError>) -> Void) {
-        
-        let urlPath = generateUrlPath(for: .pictureOfDay)
-        guard let url = URL(string: urlPath) else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data else {
-                completion(.failure(.noData))
-                print(error?.localizedDescription ?? "no description")
+    func fetchPOD(completion: @escaping (Result<PODObject, NetworkError>) -> Void) {
+        let date = dateFormatter(with: Date.now)
+        if let object = StorageManager.shared.realm.object(ofType: PODObject.self, forPrimaryKey: date) {
+            completion(.success(object))
+        } else {
+            let urlPath = generateUrlPath(for: .pictureOfDay)
+            guard let url = URL(string: urlPath) else {
+                completion(.failure(.invalidURL))
                 return
             }
             
-            let pictureOfDay: PictureOfDay? = self.parseData(with: data)
-            
-            DispatchQueue.main.async {
-                completion(.success(pictureOfDay))
-            }
-        }.resume()
+            AF.request(url)
+                .validate()
+                .responseDecodable(of: PODObject.self) { dataResponse in
+                    switch dataResponse.result {
+                    case .success(_):
+                        guard let data = dataResponse.data else { return }
+                        let podObject: PODObject? = self.parseData(with: data)
+                        
+                        if let podObject = podObject {
+                            StorageManager.shared.save(podObject)
+                            completion(.success(podObject))
+                        } else {
+                            completion(.failure(.decodingError))
+                        }
+                    case .failure:
+                        completion(.failure(.noData))
+                    }
+                }
+        }
     }
     
     func fetchPicturesOfEPIC(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void) {
@@ -82,9 +92,8 @@ class NetworkManager: NetworkManagerProtocol {
         }.resume()
     }
     
-    func fetchNearEarthObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[String: [NearEarthObject]]?, NetworkError>) -> Void) {
+    func fetchNearEarthObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[String: [NEOObject]]?, NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .nearEarthObjects, with: parameters)
-        
         guard let url = URL(string: urlPath) else {
             completion(.failure(.invalidURL))
             return
@@ -92,12 +101,18 @@ class NetworkManager: NetworkManagerProtocol {
         
         AF.request(url)
             .validate()
-            .responseJSON { dataResponse in
+            .responseDecodable(of: NearEarthObjects.self) { dataResponse in
                 switch dataResponse.result {
                 case .success(_):
                     guard let data = dataResponse.data else { return }
                     let nearEarthObjects: NearEarthObjects? = self.parseData(with: data)
-                    let nearEarthObjectsDict = nearEarthObjects?.nearEarthObjects
+                    guard let nearEarthObjectsDict = nearEarthObjects?.nearEarthObjects else { return }
+                    for (key, value) in nearEarthObjectsDict {
+                        let neoObjectsList = NEOObjectsList()
+                        neoObjectsList.date = key
+                        neoObjectsList.neoObjects.append(objectsIn: value)
+                        StorageManager.shared.save(neoObjectsList)
+                    }
                     completion(.success(nearEarthObjectsDict))
                 case .failure:
                     completion(.failure(.noData))

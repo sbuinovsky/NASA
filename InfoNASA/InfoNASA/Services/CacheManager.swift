@@ -18,7 +18,7 @@ class CacheManager: CacheManagerProtocol {
     
     private init() {}
     
-    private let cacheLifeTime: TimeInterval = 60 * 5 // 5 minutes interval
+    private let cacheLifeTime: TimeInterval = 60 * 15 // 15 minutes interval
     var images = [String: UIImage]() //RAM imageCache
     
     private let syncQueue = DispatchQueue(label: "ImageCache.queue", qos: .userInteractive)

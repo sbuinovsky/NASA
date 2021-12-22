@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NearEarthObjectListViewController: UIViewController {
+class NEOListViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
@@ -47,7 +47,7 @@ class NearEarthObjectListViewController: UIViewController {
         return slider
     }()
     
-    private var objects: [String: [NearEarthObject]] = [:]
+    private var objects: [String: [NEOObject]] = [:]
     private var objectsKeys: [String] = []
     private var tempObjectsKeys: [String] = []
     private var days: Int = 1
@@ -55,13 +55,17 @@ class NearEarthObjectListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBarController?.title = "Near Earth objects"
         
         addSubviews(sliderView, tableView, activityIndicator)
         addSliderViewSubviews(sliderLabel, slider)
         setConstraints()
         
         updateTableView(for: days)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = "Near Earth objects"
     }
     
     private func addSubviews(_ views: UIView...) {
@@ -164,7 +168,7 @@ class NearEarthObjectListViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension NearEarthObjectListViewController: UITableViewDataSource, UITableViewDelegate {
+extension NEOListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         tempObjectsKeys.count
@@ -195,7 +199,7 @@ extension NearEarthObjectListViewController: UITableViewDataSource, UITableViewD
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nearEarthObjectDetailedVC = NearEarthObjectDetailedViewController()
+        let nearEarthObjectDetailedVC = NEODetailedViewController()
         let key = tempObjectsKeys[indexPath.section]
         let object = objects[key]?[indexPath.row]
         nearEarthObjectDetailedVC.object = object

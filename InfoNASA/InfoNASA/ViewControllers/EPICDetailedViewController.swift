@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PictureOfEPICDetailedViewController: UIViewController {
+class EPICDetailedViewController: UIViewController {
     
     var object: PictureOfEPIC!
     

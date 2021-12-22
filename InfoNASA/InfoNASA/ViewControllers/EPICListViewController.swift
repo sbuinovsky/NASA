@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PictureOfEPICListViewController: UIViewController {
+class EPICListViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
@@ -24,7 +24,6 @@ class PictureOfEPICListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBarController?.title = "Polychromatic camera"
         
         view.addSubview(tableView)
         setConstraints()
@@ -44,6 +43,11 @@ class PictureOfEPICListViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = "Polychromatic camera"
+    }
+    
     //MARK: - Constraints
     private func setConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +61,7 @@ class PictureOfEPICListViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension PictureOfEPICListViewController: UITableViewDataSource, UITableViewDelegate {
+extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
     }
@@ -76,7 +80,7 @@ extension PictureOfEPICListViewController: UITableViewDataSource, UITableViewDel
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let pictureOfEPICDetailedVC = PictureOfEPICDetailedViewController()
+        let pictureOfEPICDetailedVC = EPICDetailedViewController()
         let object = pictures[indexPath.row]
         pictureOfEPICDetailedVC.object = object
         self.navigationController?.pushViewController(pictureOfEPICDetailedVC, animated: true)

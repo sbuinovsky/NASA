@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import RealmSwift
 
-class PictureOfDayViewController: UIViewController {
+class PODViewController: UIViewController {
 
     //MARK: - Views
     private lazy var scrollView = UIScrollView()
@@ -66,22 +67,26 @@ class PictureOfDayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBarController?.title = "Picture of the Day"
         
         view.addSubview(scrollView)
         addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, urlLabel, activityIndicator)
         setConstraints()
         
-        NetworkManager.shared.fetchPictureOfDay { [weak self] result in
+        NetworkManager.shared.fetchPOD { [unowned self] result in
             switch result {
-            case .success(let pictureOfDay):
-                guard let picture = pictureOfDay else { return }
-                self?.configureLabels(with: picture)
-                self?.configureImage(with: picture)
+            case .success(let podObject):
+                self.configureLabels(with: podObject)
+                self.configureImage(with: podObject)
             case .failure(let error):
                 print(error)
             }
         }
+ 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = "Picture of the Day"
     }
     
     private func addScrollViewSubviews(_ views:UIView...) {
@@ -152,7 +157,7 @@ class PictureOfDayViewController: UIViewController {
     }
 
     //MARK: - Changing methods
-    private func configureLabels(with picture: PictureOfDay) {
+    private func configureLabels(with picture: PODObject) {
         dateLabel.text = picture.date
         titleLabel.text = picture.title
         copyrightLabel.text = ""
@@ -160,7 +165,7 @@ class PictureOfDayViewController: UIViewController {
         urlLabel.text = picture.url
     }
     
-    private func configureImage(with picture: PictureOfDay) {
+    private func configureImage(with picture: PODObject) {
         NetworkManager.shared.fetchImage(for: picture.url) { [weak self] image in
             self?.imageView.image = image
             self?.activityIndicator.stopAnimating()
