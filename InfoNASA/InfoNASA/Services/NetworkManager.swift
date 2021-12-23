@@ -10,13 +10,11 @@ import Alamofire
 
 protocol NetworkManagerProtocol {
     func fetchPODObject(completion: @escaping (Result<PODObject, NetworkError>) -> Void)
-    func fetchNEOObjects(forDateInterval: [String: String], completion: @escaping(Result<[String: [NEOObject]]?, NetworkError>) -> Void)
+    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<String, NetworkError>) -> Void)
     
     func fetchEPICObjects(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void)
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void)
     func generateEPICImageURLPath(for picture: PictureOfEPIC) -> String
-    func getDateInterval(from startDate: Date, to endDate: Date) -> [String: String]
-    func getDateInterval(for days: Int) -> [String: String]
 }
 
 private enum CategoryPath: String {
@@ -32,14 +30,14 @@ enum NetworkError: String, Error {
 }
 
 class NetworkManager: NetworkManagerProtocol {
-    
+
     static var shared = NetworkManager()
     
     private init() {}
     
     //MARK: - Public methods
     func fetchPODObject(completion: @escaping (Result<PODObject, NetworkError>) -> Void) {
-        let date = dateFormatter(with: Date.now)
+        let date = DateFormatter.stringFromDate(for: Date.now)
         if let object = StorageManager.shared.realm.object(ofType: PODObject.self, forPrimaryKey: date) {
             completion(.success(object))
         } else {
@@ -70,7 +68,7 @@ class NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[String: [NEOObject]]?, NetworkError>) -> Void) {
+    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<String, NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .NEO, with: parameters)
         guard let url = URL(string: urlPath) else {
             completion(.failure(.invalidURL))
@@ -91,40 +89,12 @@ class NetworkManager: NetworkManagerProtocol {
                         neoObjectsList.neoObjects.append(objectsIn: value)
                         StorageManager.shared.save(neoObjectsList)
                     }
-                    completion(.success(nearEarthObjectsDict))
+                    completion(.success("OK"))
                 case .failure:
                     completion(.failure(.noData))
                 }
             }
     }
-    
-//    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<NEOObjectsList?, NetworkError>) -> Void) {
-//        let urlPath = generateUrlPath(for: .NEO, with: parameters)
-//        guard let url = URL(string: urlPath) else {
-//            completion(.failure(.invalidURL))
-//            return
-//        }
-//
-//        AF.request(url)
-//            .validate()
-//            .responseDecodable(of: NEOObjects.self) { dataResponse in
-//                switch dataResponse.result {
-//                case .success(_):
-//                    guard let data = dataResponse.data else { return }
-//                    let nearEarthObjects: NEOObjects? = self.parseData(with: data)
-//                    guard let nearEarthObjectsDict = nearEarthObjects?.nearEarthObjects else { return }
-//                    for (key, value) in nearEarthObjectsDict {
-//                        let neoObjectsList = NEOObjectsList()
-//                        neoObjectsList.date = key
-//                        neoObjectsList.neoObjects.append(objectsIn: value)
-//                        StorageManager.shared.save(neoObjectsList)
-//                    }
-//                    completion(.success(nearEarthObjectsDict))
-//                case .failure:
-//                    completion(.failure(.noData))
-//                }
-//            }
-//    }
     
     func fetchEPICObjects(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .EPIC)
@@ -149,22 +119,19 @@ class NetworkManager: NetworkManagerProtocol {
     }
     
     
-    func getDateInterval(from startDate: Date, to endDate: Date) -> [String: String] {
-        let startDate = dateFormatter(with: startDate)
-        let endDate = dateFormatter(with: endDate)
-        
-        return [
-            "start_date": startDate,
-            "end_date": endDate
-        ]
-    }
-    
-    func getDateInterval(for days: Int) -> [String: String] {
-        let startDate = Date()
-        let timeInterval = TimeInterval(-3600 * 24 * (days - 1))
-        let endDate = Date(timeInterval: timeInterval, since: startDate)
-        return NetworkManager.shared.getDateInterval(from: startDate, to: endDate)
-    }
+//    func getDateRange(for days: Int, to startDate: Date) -> [String: String] {
+//
+//        let timeInterval = TimeInterval(-3600 * 24 * (days - 1))
+//        let endDate = Date(timeInterval: timeInterval, since: startDate)
+//
+//        let stringStartDate = DateFormatter.stringFromDate(for: startDate)
+//        let stringEndDate = DateFormatter.stringFromDate(for: endDate)
+//
+//        return [
+//            "start_date": stringStartDate,
+//            "end_date": stringEndDate
+//        ]
+//    }
     
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void) {
         guard let url = URL(string: imagePath) else { return }
@@ -246,12 +213,5 @@ class NetworkManager: NetworkManagerProtocol {
         }
         
         return urlPath
-    }
-    
-    private func dateFormatter(with date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US")
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: date)
     }
 }

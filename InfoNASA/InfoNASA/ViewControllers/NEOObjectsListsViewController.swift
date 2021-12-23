@@ -8,14 +8,15 @@
 import UIKit
 import RealmSwift
 
-class NEOListViewController: UIViewController {
+class NEOObjectsListsViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NEOObjectCell.self, forCellReuseIdentifier: "nearObjectsCell")
+        tableView.register(NEOObjectCell.self, forCellReuseIdentifier: "NEOObjectCell")
+        tableView.register(NEOObjectCellButton.self, forCellReuseIdentifier: "NEOObjectCellButton")
         tableView.sectionHeaderHeight = 40
         tableView.separatorStyle = .none
         return tableView
@@ -42,8 +43,13 @@ class NEOListViewController: UIViewController {
         
         addSubviews(tableView, activityIndicator)
         setConstraints()
-        
         neoObjectsLists = StorageManager.shared.realm.objects(NEOObjectsList.self).sorted(byKeyPath: "date", ascending: false)
+       
+        if !neoObjectsLists.isEmpty {
+            activityIndicator.stopAnimating()
+        } else {
+            moreButtonPressed()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,66 +80,72 @@ class NEOListViewController: UIViewController {
         ])
     }
     
-    //MARK: - Changing methods
-    private func updateTableView(for days: Int) {
+    @objc
+    private func moreButtonPressed() {
+        activityIndicator.startAnimating()
+        tableView.layer.opacity = 0.2
         
-        if objects.count >= days {
-            tempObjectsKeys = Array(objectsKeys.prefix(days))
-            activityIndicator.stopAnimating()
-            tableView.layer.opacity = 1
-            tableView.reloadData()
-            
-        } else {
-            let dateInterval = NetworkManager.shared.getDateInterval(for: days)
-            NetworkManager.shared.fetchNEOObjects(forDateInterval: dateInterval) { [weak self] result in
-                switch result {
-                case .success(let nearEarthObjectsDict):
-                    guard let nearEarthObjectsDict = nearEarthObjectsDict else { return }
-                    self?.objects = nearEarthObjectsDict
-                    self?.objectsKeys = Array((self?.objects.keys)!).sorted(by: >)
-                    self?.tempObjectsKeys = self?.objectsKeys ?? []
-                    self?.activityIndicator.stopAnimating()
-                    self?.tableView.layer.opacity = 1
-                    self?.tableView.reloadData()
-                case .failure(_):
-                    print("failure")
-                }
+        let lastDateString = neoObjectsLists.last?.date ?? ""
+        let lastDate = DateFormatter.dateFromString(for: lastDateString)
+        
+        let dateRange = DateFormatter.getDateRange(forDays: 7, to: lastDate)
+        NetworkManager.shared.fetchNEOObjects(forDateInterval: dateRange) { [unowned self] result in
+            switch result {
+            case .success(_):
+                tableView.reloadData()
+                tableView.layer.opacity = 1
+                activityIndicator.stopAnimating()
+            case .failure(let error):
+                print(error)
             }
         }
     }
 }
 
 //MARK: - Extension for TableView
-extension NEOListViewController: UITableViewDataSource, UITableViewDelegate {
+extension NEOObjectsListsViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        neoObjectsLists.count
+        section == 0 ? neoObjectsLists.count : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "nearObjectsCell", for: indexPath) as! NEOObjectCell
-
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let neoObjectsList = neoObjectsLists[indexPath.row]
-        
-        var content = cell.defaultContentConfiguration()
-        content.image = UIImage(systemName: "calendar")
-        content.imageProperties.tintColor = UIColor(named: "mainBlueColor")
-        content.text = neoObjectsList.date
-        content.secondaryText = "\(neoObjectsList.neoObjects.count) objects"
-        cell.contentConfiguration = content
-        
-        return cell
+        if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOObjectCellButton", for: indexPath) as! NEOObjectCellButton
+            cell.configure()
+            cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOObjectCell", for: indexPath) as! NEOObjectCell
+            
+            let neoObjectsList = neoObjectsLists[indexPath.row]
+            
+            var content = cell.defaultContentConfiguration()
+            content.image = UIImage(systemName: "calendar")
+            content.imageProperties.tintColor = UIColor(named: "mainBlueColor")
+            content.text = neoObjectsList.date
+            content.secondaryText = "\(neoObjectsList.neoObjects.count) objects"
+            cell.contentConfiguration = content
+            
+            return cell
+        }
     }
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nearEarthObjectDetailedVC = NEODetailedViewController()
-        let key = tempObjectsKeys[indexPath.section]
-        let object = objects[key]?[indexPath.row]
-        nearEarthObjectDetailedVC.object = object
-        self.navigationController?.pushViewController(nearEarthObjectDetailedVC, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 0 {
+            let neoObjectListVC = NEOObjectListViewController()
+            let neoObjectsList = neoObjectsLists[indexPath.row]
+            neoObjectListVC.neoObjectsList = neoObjectsList
+            self.navigationController?.pushViewController(neoObjectListVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            moreButtonPressed()
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
