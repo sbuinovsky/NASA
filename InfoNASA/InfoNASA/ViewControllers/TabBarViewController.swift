@@ -28,7 +28,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         tabBarItem.imageInsets = UIEdgeInsets(top: 85, left: 85, bottom: 85, right: 85)
         pictureOfDayVC.tabBarItem = tabBarItem
         
-        let nearObjectsVC = NEOObjectsListsViewController()
+        let nearObjectsVC = NEOListsViewController()
         let tabBarItem1 = UITabBarItem(title: "NEO",
                                        image: UIImage(systemName: "allergens"),
                                        selectedImage: UIImage(systemName: "allergens"))

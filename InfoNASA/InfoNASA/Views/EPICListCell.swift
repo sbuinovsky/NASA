@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EPICObjectCell: UITableViewCell {
+class EPICListCell: UITableViewCell {
 
     //MARK: - Views
     private lazy var photoImageView: UIImageView = {

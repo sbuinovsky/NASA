@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NEOObjectDetailedViewController: UIViewController {
+class NEODetailedViewController: UIViewController {
 
     var object: NEOObject!
     

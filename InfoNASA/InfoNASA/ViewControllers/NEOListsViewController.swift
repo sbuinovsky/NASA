@@ -8,15 +8,15 @@
 import UIKit
 import RealmSwift
 
-class NEOObjectsListsViewController: UIViewController {
+class NEOListsViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NEOObjectCell.self, forCellReuseIdentifier: "NEOObjectCell")
-        tableView.register(NEOObjectCellButton.self, forCellReuseIdentifier: "NEOObjectCellButton")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "NEOListsCell")
+        tableView.register(NEOListsCellButton.self, forCellReuseIdentifier: "NEOListsCellButton")
         tableView.sectionHeaderHeight = 40
         tableView.separatorStyle = .none
         return tableView
@@ -29,11 +29,6 @@ class NEOObjectsListsViewController: UIViewController {
         activityIndicator.style = .large
         return activityIndicator
     }()
-    
-    private var objects: [String: [NEOObject]] = [:]
-    private var objectsKeys: [String] = []
-    private var tempObjectsKeys: [String] = []
-    private var days: Int = 7
     
     private var neoObjectsLists: Results<NEOObjectsList>!
     
@@ -55,6 +50,7 @@ class NEOObjectsListsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = "Near Earth objects"
+        tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
     private func addSubviews(_ views: UIView...) {
@@ -103,7 +99,7 @@ class NEOObjectsListsViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension NEOObjectsListsViewController: UITableViewDataSource, UITableViewDelegate {
+extension NEOListsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         2
@@ -115,12 +111,12 @@ extension NEOObjectsListsViewController: UITableViewDataSource, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOObjectCellButton", for: indexPath) as! NEOObjectCellButton
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOListsCellButton", for: indexPath) as! NEOListsCellButton
             cell.configure()
             cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOObjectCell", for: indexPath) as! NEOObjectCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOListsCell", for: indexPath)
             
             let neoObjectsList = neoObjectsLists[indexPath.row]
             
@@ -138,7 +134,7 @@ extension NEOObjectsListsViewController: UITableViewDataSource, UITableViewDeleg
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            let neoObjectListVC = NEOObjectListViewController()
+            let neoObjectListVC = NEOListViewController()
             let neoObjectsList = neoObjectsLists[indexPath.row]
             neoObjectListVC.neoObjectsList = neoObjectsList
             self.navigationController?.pushViewController(neoObjectListVC, animated: true)

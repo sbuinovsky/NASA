@@ -89,7 +89,7 @@ class NetworkManager: NetworkManagerProtocol {
                         neoObjectsList.neoObjects.append(objectsIn: value)
                         StorageManager.shared.save(neoObjectsList)
                     }
-                    completion(.success("OK"))
+                    completion(.success("Loaded and saved to Realm"))
                 case .failure:
                     completion(.failure(.noData))
                 }
@@ -117,21 +117,6 @@ class NetworkManager: NetworkManagerProtocol {
             }
         }.resume()
     }
-    
-    
-//    func getDateRange(for days: Int, to startDate: Date) -> [String: String] {
-//
-//        let timeInterval = TimeInterval(-3600 * 24 * (days - 1))
-//        let endDate = Date(timeInterval: timeInterval, since: startDate)
-//
-//        let stringStartDate = DateFormatter.stringFromDate(for: startDate)
-//        let stringEndDate = DateFormatter.stringFromDate(for: endDate)
-//
-//        return [
-//            "start_date": stringStartDate,
-//            "end_date": stringEndDate
-//        ]
-//    }
     
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void) {
         guard let url = URL(string: imagePath) else { return }

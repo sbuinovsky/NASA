@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NEOObjectCell: UITableViewCell {
+class NEOListCell: UITableViewCell {
 
     //MARK: - Views
     private lazy var iconImage: UIImageView = {
@@ -21,7 +21,7 @@ class NEOObjectCell: UITableViewCell {
     
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         return nameLabel
     }()
     

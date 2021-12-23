@@ -14,7 +14,7 @@ class EPICListViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(EPICObjectCell.self, forCellReuseIdentifier: "EPICCell")
+        tableView.register(EPICListCell.self, forCellReuseIdentifier: "EPICListCell")
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -46,6 +46,7 @@ class EPICListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = "Polychromatic camera"
+        tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
     //MARK: - Constraints
@@ -67,7 +68,7 @@ extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICCell", for: indexPath) as! EPICObjectCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICListCell", for: indexPath) as! EPICListCell
         
         tableView.deselectRow(at: indexPath, animated: false)
         

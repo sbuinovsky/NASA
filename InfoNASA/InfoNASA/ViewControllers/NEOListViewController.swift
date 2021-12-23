@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NEOObjectListViewController: UIViewController {
+class NEOListViewController: UIViewController {
 
     var neoObjectsList: NEOObjectsList!
     
@@ -16,7 +16,7 @@ class NEOObjectListViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(NEOObjectCell.self, forCellReuseIdentifier: "NEOObjectsCell")
+        tableView.register(NEOListCell.self, forCellReuseIdentifier: "NEOListCell")
         tableView.sectionHeaderHeight = 40
         return tableView
     }()
@@ -65,14 +65,14 @@ class NEOObjectListViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension NEOObjectListViewController: UITableViewDataSource, UITableViewDelegate {
+extension NEOListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         neoObjectsList.neoObjects.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NEOObjectsCell", for: indexPath) as! NEOObjectCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NEOListCell", for: indexPath) as! NEOListCell
 
         tableView.deselectRow(at: indexPath, animated: true)
 
@@ -84,7 +84,7 @@ extension NEOObjectListViewController: UITableViewDataSource, UITableViewDelegat
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let neoObjectDetailedVC = NEOObjectDetailedViewController()
+        let neoObjectDetailedVC = NEODetailedViewController()
         let neoObject = neoObjectsList.neoObjects[indexPath.row]
         neoObjectDetailedVC.object = neoObject
         self.navigationController?.pushViewController(neoObjectDetailedVC, animated: true)

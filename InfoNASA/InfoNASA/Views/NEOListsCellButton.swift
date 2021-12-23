@@ -6,7 +6,7 @@
 
 import UIKit
 
-class NEOObjectCellButton: UITableViewCell {
+class NEOListsCellButton: UITableViewCell {
 
     //MARK: - Views
     lazy var moreButton: UIButton = {

@@ -16,7 +16,7 @@ class PODViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.numberOfLines = 0
-        titleLabel.font = .systemFont(ofSize: 22)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         titleLabel.contentMode = .left
         return titleLabel
     }()
@@ -81,12 +81,15 @@ class PODViewController: UIViewController {
                 print(error)
             }
         }
- 
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.title = "Picture of the Day"
+        
+        let listOfPODsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(showPODlist))
+        tabBarController?.navigationItem.rightBarButtonItem = listOfPODsButton
     }
     
     private func addScrollViewSubviews(_ views:UIView...) {
@@ -171,5 +174,12 @@ class PODViewController: UIViewController {
             self?.activityIndicator.stopAnimating()
         }
         imageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
+    }
+    
+    //MARK: - Navigation
+    @objc
+    private func showPODlist() {
+        let podListVC = PODListViewController()
+        self.navigationController?.pushViewController(podListVC, animated: true)
     }
 }

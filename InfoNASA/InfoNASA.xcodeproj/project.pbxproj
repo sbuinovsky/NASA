@@ -18,20 +18,22 @@
 		C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */; };
 		C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */; };
 		C23ADB54273DAF2B0090A6C3 /* PODViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB53273DAF2B0090A6C3 /* PODViewController.swift */; };
-		C23ADB56273DBFC90090A6C3 /* NEOObjectsListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB55273DBFC90090A6C3 /* NEOObjectsListsViewController.swift */; };
+		C23ADB56273DBFC90090A6C3 /* NEOListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB55273DBFC90090A6C3 /* NEOListsViewController.swift */; };
 		C23ADB58273DBFF50090A6C3 /* EPICListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB57273DBFF50090A6C3 /* EPICListViewController.swift */; };
 		C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23ADB59273E95FF0090A6C3 /* DataManager.swift */; };
 		C27FEE8F27463656007D6CE2 /* NEOObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE8E27463656007D6CE2 /* NEOObject.swift */; };
-		C27FEE9127465ACC007D6CE2 /* NEOObjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE9027465ACC007D6CE2 /* NEOObjectCell.swift */; };
+		C27FEE9127465ACC007D6CE2 /* NEOListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27FEE9027465ACC007D6CE2 /* NEOListCell.swift */; };
 		C2AEB4622771086D00E8778F /* PODObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AEB4612771086D00E8778F /* PODObject.swift */; };
 		C2AEB4672771091400E8778F /* EPICObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AEB4662771091400E8778F /* EPICObject.swift */; };
-		C2E92D47277358BA00D82079 /* NEOObjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D46277358BA00D82079 /* NEOObjectListViewController.swift */; };
+		C2E92D47277358BA00D82079 /* NEOListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D46277358BA00D82079 /* NEOListViewController.swift */; };
 		C2E92D4C2774894A00D82079 /* Extension + DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4B2774894A00D82079 /* Extension + DateFormatter.swift */; };
-		C2E92D4E2774982800D82079 /* NEOObjectCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4D2774982800D82079 /* NEOObjectCellButton.swift */; };
-		C2EDC6162761EDA200C4F722 /* NEOObjectDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC6152761EDA200C4F722 /* NEOObjectDetailedViewController.swift */; };
+		C2E92D4E2774982800D82079 /* NEOListsCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4D2774982800D82079 /* NEOListsCellButton.swift */; };
+		C2E92D502774FE3B00D82079 /* PODListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */; };
+		C2E92D522774FEE200D82079 /* PODListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D512774FEE200D82079 /* PODListCell.swift */; };
+		C2EDC6162761EDA200C4F722 /* NEODetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */; };
 		C2EDC618276219B200C4F722 /* EPICDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */; };
 		C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */; };
-		C2EED8F9274AF63100E86A1D /* EPICObjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* EPICObjectCell.swift */; };
+		C2EED8F9274AF63100E86A1D /* EPICListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* EPICListCell.swift */; };
 		C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE32752304800AAD03C /* NetworkManager.swift */; };
 		C2F2DFE62752335400AAD03C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE52752335400AAD03C /* Constants.swift */; };
 		C2F2DFE827540A5D00AAD03C /* Extension + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE727540A5D00AAD03C /* Extension + UIView.swift */; };
@@ -51,20 +53,22 @@
 		C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationViewController.swift; sourceTree = "<group>"; };
 		C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		C23ADB53273DAF2B0090A6C3 /* PODViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PODViewController.swift; sourceTree = "<group>"; };
-		C23ADB55273DBFC90090A6C3 /* NEOObjectsListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOObjectsListsViewController.swift; sourceTree = "<group>"; };
+		C23ADB55273DBFC90090A6C3 /* NEOListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOListsViewController.swift; sourceTree = "<group>"; };
 		C23ADB57273DBFF50090A6C3 /* EPICListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICListViewController.swift; sourceTree = "<group>"; };
 		C23ADB59273E95FF0090A6C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		C27FEE8E27463656007D6CE2 /* NEOObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOObject.swift; sourceTree = "<group>"; };
-		C27FEE9027465ACC007D6CE2 /* NEOObjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOObjectCell.swift; sourceTree = "<group>"; };
+		C27FEE9027465ACC007D6CE2 /* NEOListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOListCell.swift; sourceTree = "<group>"; };
 		C2AEB4612771086D00E8778F /* PODObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PODObject.swift; sourceTree = "<group>"; };
 		C2AEB4662771091400E8778F /* EPICObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICObject.swift; sourceTree = "<group>"; };
-		C2E92D46277358BA00D82079 /* NEOObjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOObjectListViewController.swift; sourceTree = "<group>"; };
+		C2E92D46277358BA00D82079 /* NEOListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOListViewController.swift; sourceTree = "<group>"; };
 		C2E92D4B2774894A00D82079 /* Extension + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + DateFormatter.swift"; sourceTree = "<group>"; };
-		C2E92D4D2774982800D82079 /* NEOObjectCellButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOObjectCellButton.swift; sourceTree = "<group>"; };
-		C2EDC6152761EDA200C4F722 /* NEOObjectDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOObjectDetailedViewController.swift; sourceTree = "<group>"; };
+		C2E92D4D2774982800D82079 /* NEOListsCellButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOListsCellButton.swift; sourceTree = "<group>"; };
+		C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PODListViewController.swift; sourceTree = "<group>"; };
+		C2E92D512774FEE200D82079 /* PODListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PODListCell.swift; sourceTree = "<group>"; };
+		C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEODetailedViewController.swift; sourceTree = "<group>"; };
 		C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICDetailedViewController.swift; sourceTree = "<group>"; };
 		C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPIC.swift; sourceTree = "<group>"; };
-		C2EED8F8274AF63100E86A1D /* EPICObjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICObjectCell.swift; sourceTree = "<group>"; };
+		C2EED8F8274AF63100E86A1D /* EPICListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICListCell.swift; sourceTree = "<group>"; };
 		C2F2DFE32752304800AAD03C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C2F2DFE52752335400AAD03C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C2F2DFE727540A5D00AAD03C /* Extension + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIView.swift"; sourceTree = "<group>"; };
@@ -149,9 +153,10 @@
 		C20E2AD4273D250B009A194D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C27FEE9027465ACC007D6CE2 /* NEOObjectCell.swift */,
-				C2E92D4D2774982800D82079 /* NEOObjectCellButton.swift */,
-				C2EED8F8274AF63100E86A1D /* EPICObjectCell.swift */,
+				C2E92D512774FEE200D82079 /* PODListCell.swift */,
+				C2E92D4D2774982800D82079 /* NEOListsCellButton.swift */,
+				C27FEE9027465ACC007D6CE2 /* NEOListCell.swift */,
+				C2EED8F8274AF63100E86A1D /* EPICListCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -162,9 +167,10 @@
 				C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */,
 				C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */,
 				C23ADB53273DAF2B0090A6C3 /* PODViewController.swift */,
-				C23ADB55273DBFC90090A6C3 /* NEOObjectsListsViewController.swift */,
-				C2E92D46277358BA00D82079 /* NEOObjectListViewController.swift */,
-				C2EDC6152761EDA200C4F722 /* NEOObjectDetailedViewController.swift */,
+				C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */,
+				C23ADB55273DBFC90090A6C3 /* NEOListsViewController.swift */,
+				C2E92D46277358BA00D82079 /* NEOListViewController.swift */,
+				C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */,
 				C23ADB57273DBFF50090A6C3 /* EPICListViewController.swift */,
 				C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */,
 			);
@@ -335,18 +341,19 @@
 			files = (
 				C2AEB4672771091400E8778F /* EPICObject.swift in Sources */,
 				C20E2AC0273D24BB009A194D /* AppDelegate.swift in Sources */,
-				C2E92D47277358BA00D82079 /* NEOObjectListViewController.swift in Sources */,
+				C2E92D47277358BA00D82079 /* NEOListViewController.swift in Sources */,
 				C2EDC618276219B200C4F722 /* EPICDetailedViewController.swift in Sources */,
 				C2E92D4C2774894A00D82079 /* Extension + DateFormatter.swift in Sources */,
 				C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */,
 				C27FEE8F27463656007D6CE2 /* NEOObject.swift in Sources */,
+				C2E92D522774FEE200D82079 /* PODListCell.swift in Sources */,
 				C22A9551275C0069005016FF /* StorageManager.swift in Sources */,
-				C2EED8F9274AF63100E86A1D /* EPICObjectCell.swift in Sources */,
-				C2E92D4E2774982800D82079 /* NEOObjectCellButton.swift in Sources */,
+				C2EED8F9274AF63100E86A1D /* EPICListCell.swift in Sources */,
+				C2E92D4E2774982800D82079 /* NEOListsCellButton.swift in Sources */,
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
 				C2F2DFE62752335400AAD03C /* Constants.swift in Sources */,
 				C20E2AC2273D24BB009A194D /* SceneDelegate.swift in Sources */,
-				C23ADB56273DBFC90090A6C3 /* NEOObjectsListsViewController.swift in Sources */,
+				C23ADB56273DBFC90090A6C3 /* NEOListsViewController.swift in Sources */,
 				C23ADB54273DAF2B0090A6C3 /* PODViewController.swift in Sources */,
 				C2AEB4622771086D00E8778F /* PODObject.swift in Sources */,
 				C23ADB50273D47840090A6C3 /* MainNavigationViewController.swift in Sources */,
@@ -354,9 +361,10 @@
 				C22A9553275C22C5005016FF /* CacheManager.swift in Sources */,
 				C23ADB58273DBFF50090A6C3 /* EPICListViewController.swift in Sources */,
 				C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */,
-				C2EDC6162761EDA200C4F722 /* NEOObjectDetailedViewController.swift in Sources */,
+				C2EDC6162761EDA200C4F722 /* NEODetailedViewController.swift in Sources */,
 				C23ADB52273D4A790090A6C3 /* TabBarViewController.swift in Sources */,
-				C27FEE9127465ACC007D6CE2 /* NEOObjectCell.swift in Sources */,
+				C27FEE9127465ACC007D6CE2 /* NEOListCell.swift in Sources */,
+				C2E92D502774FE3B00D82079 /* PODListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
