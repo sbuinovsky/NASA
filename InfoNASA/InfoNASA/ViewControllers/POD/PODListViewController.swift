@@ -18,7 +18,7 @@ class PODListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.sectionHeaderHeight = 40
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PODListCell")
+        tableView.register(PODListCell.self, forCellReuseIdentifier: "PODListCell")
         return tableView
     }()
     
@@ -75,18 +75,12 @@ extension PODListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PODListCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PODListCell", for: indexPath) as! PODListCell
         
         tableView.deselectRow(at: indexPath, animated: true)
 
         let podObject = podList[indexPath.row]
-        
-        var content = cell.defaultContentConfiguration()
-        content.image = UIImage(systemName: "calendar")
-        content.imageProperties.tintColor = UIColor(named: "mainBlueColor")
-        content.text = podObject.title
-        content.secondaryText = "\(podObject.date)"
-        cell.contentConfiguration = content
+        cell.configure(with: podObject)
 
         return cell
     }

@@ -14,8 +14,7 @@ class PODListCell: UITableViewCell {
         let iconImage = UIImageView()
         iconImage.clipsToBounds = true
         iconImage.contentMode = .scaleAspectFit
-        iconImage.image = UIImage(systemName: "circle.hexagonpath")
-        iconImage.tintColor = UIColor(named: "mainBlueColor")
+        iconImage.layer.cornerRadius = 10
         return iconImage
     }()
     
@@ -45,23 +44,24 @@ class PODListCell: UITableViewCell {
     private func setConstraints() {
         iconImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            iconImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             iconImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            iconImage.heightAnchor.constraint(equalTo: titleLabel.heightAnchor),
-            iconImage.widthAnchor.constraint(equalTo: iconImage.heightAnchor, multiplier: 1.0)
+            iconImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+            iconImage.widthAnchor.constraint(equalToConstant: 80),
+            iconImage.heightAnchor.constraint(equalTo: iconImage.widthAnchor, multiplier: 1.0),
+            iconImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ])
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: iconImage.trailingAnchor, constant: 10),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
+            titleLabel.topAnchor.constraint(equalTo: iconImage.topAnchor, constant: 10)
         ])
         
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
+//            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     
@@ -72,8 +72,8 @@ class PODListCell: UITableViewCell {
     }
     
     private func configureImage(for object: PODObject) {
-        NetworkManager.shared.fetchImage(for: object.url) { [weak self] image in
-            self?.iconImage.image = image
+        NetworkManager.shared.fetchImage(for: object.url) { [unowned self] image in
+            self.iconImage.image = image
         }
         iconImage.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
     }

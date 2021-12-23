@@ -166,13 +166,9 @@
 			children = (
 				C23ADB4F273D47840090A6C3 /* MainNavigationViewController.swift */,
 				C23ADB51273D4A790090A6C3 /* TabBarViewController.swift */,
-				C23ADB53273DAF2B0090A6C3 /* PODViewController.swift */,
-				C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */,
-				C23ADB55273DBFC90090A6C3 /* NEOListsViewController.swift */,
-				C2E92D46277358BA00D82079 /* NEOListViewController.swift */,
-				C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */,
-				C23ADB57273DBFF50090A6C3 /* EPICListViewController.swift */,
-				C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */,
+				C2E92D53277511D300D82079 /* POD */,
+				C2E92D54277511E300D82079 /* NEO */,
+				C2E92D55277511FE00D82079 /* EPIC */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -213,6 +209,34 @@
 				C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */,
 			);
 			path = Parsing;
+			sourceTree = "<group>";
+		};
+		C2E92D53277511D300D82079 /* POD */ = {
+			isa = PBXGroup;
+			children = (
+				C23ADB53273DAF2B0090A6C3 /* PODViewController.swift */,
+				C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */,
+			);
+			path = POD;
+			sourceTree = "<group>";
+		};
+		C2E92D54277511E300D82079 /* NEO */ = {
+			isa = PBXGroup;
+			children = (
+				C23ADB55273DBFC90090A6C3 /* NEOListsViewController.swift */,
+				C2E92D46277358BA00D82079 /* NEOListViewController.swift */,
+				C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */,
+			);
+			path = NEO;
+			sourceTree = "<group>";
+		};
+		C2E92D55277511FE00D82079 /* EPIC */ = {
+			isa = PBXGroup;
+			children = (
+				C23ADB57273DBFF50090A6C3 /* EPICListViewController.swift */,
+				C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */,
+			);
+			path = EPIC;
 			sourceTree = "<group>";
 		};
 		C2F2DFE927540E4900AAD03C /* Extensions */ = {
