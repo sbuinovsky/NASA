@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NearEarthObjectCell: UITableViewCell {
+class NEOListCell: UITableViewCell {
 
     //MARK: - Views
     private lazy var iconImage: UIImageView = {
@@ -21,7 +21,7 @@ class NearEarthObjectCell: UITableViewCell {
     
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         return nameLabel
     }()
     
@@ -29,7 +29,7 @@ class NearEarthObjectCell: UITableViewCell {
     private lazy var minDiameterLabel = UILabel()
     private lazy var maxDiameterLabel = UILabel()
 
-    func configure(with object: NearEarthObject) {
+    func configure(with object: NEOObject) {
         addSubviews(iconImage, nameLabel, absoluteMagnitudeLabel, minDiameterLabel, maxDiameterLabel)
         setConstraints()
         
@@ -79,10 +79,10 @@ class NearEarthObjectCell: UITableViewCell {
     }
     
     //MARK: - Changing methods
-    private func configureLabels(for object: NearEarthObject) {
+    private func configureLabels(for object: NEOObject) {
         nameLabel.text = object.name
         absoluteMagnitudeLabel.text = "Magnitude: \(object.absoluteMagnitudeH)"
-        minDiameterLabel.text = "Diameter min: \(object.estimatedDiameter.kilometers.estimatedDiameterMin)"
-        maxDiameterLabel.text = "Diameter max: \(object.estimatedDiameter.kilometers.estimatedDiameterMax)"
+        minDiameterLabel.text = "Diameter min: \(object.estimatedDiameter?.kilometers?.estimatedDiameterMin ?? 0)"
+        maxDiameterLabel.text = "Diameter max: \(object.estimatedDiameter?.kilometers?.estimatedDiameterMax ?? 0)"
     }
 }

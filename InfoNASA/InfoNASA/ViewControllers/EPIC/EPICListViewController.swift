@@ -7,14 +7,14 @@
 
 import UIKit
 
-class PictureOfEPICListViewController: UIViewController {
+class EPICListViewController: UIViewController {
 
     //MARK: - Views
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(PictureOfEPICCell.self, forCellReuseIdentifier: "EPICCell")
+        tableView.register(EPICListCell.self, forCellReuseIdentifier: "EPICListCell")
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -24,12 +24,11 @@ class PictureOfEPICListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBarController?.title = "Polychromatic camera"
         
         view.addSubview(tableView)
         setConstraints()
         
-        NetworkManager.shared.fetchPicturesOfEPIC { [weak self] result in
+        NetworkManager.shared.fetchEPICObjects { [weak self] result in
             switch result {
             case .success( let picturesOfEPIC):
                 guard let picturesOfEPIC = picturesOfEPIC else { return }
@@ -42,6 +41,12 @@ class PictureOfEPICListViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = "Polychromatic camera"
+        tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     
     //MARK: - Constraints
@@ -57,13 +62,13 @@ class PictureOfEPICListViewController: UIViewController {
 }
 
 //MARK: - Extension for TableView
-extension PictureOfEPICListViewController: UITableViewDataSource, UITableViewDelegate {
+extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICCell", for: indexPath) as! PictureOfEPICCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EPICListCell", for: indexPath) as! EPICListCell
         
         tableView.deselectRow(at: indexPath, animated: false)
         
@@ -76,7 +81,7 @@ extension PictureOfEPICListViewController: UITableViewDataSource, UITableViewDel
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let pictureOfEPICDetailedVC = PictureOfEPICDetailedViewController()
+        let pictureOfEPICDetailedVC = EPICDetailedViewController()
         let object = pictures[indexPath.row]
         pictureOfEPICDetailedVC.object = object
         self.navigationController?.pushViewController(pictureOfEPICDetailedVC, animated: true)

@@ -6,16 +6,21 @@
 //
 
 import UIKit
+import RealmSwift
 
-class PictureOfDayViewController: UIViewController {
+protocol PODListProtocol {
+    func updatePOD(with object: PODObject)
+}
 
+class PODViewController: UIViewController {
+    
     //MARK: - Views
     private lazy var scrollView = UIScrollView()
     
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.numberOfLines = 0
-        titleLabel.font = .systemFont(ofSize: 22)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         titleLabel.contentMode = .left
         return titleLabel
     }()
@@ -47,14 +52,6 @@ class PictureOfDayViewController: UIViewController {
         return explanationLabel
     }()
     
-    private lazy var urlLabel: UILabel = {
-        let urlLabel = UILabel()
-        urlLabel.numberOfLines = 1
-        urlLabel.textColor = .systemBlue
-        urlLabel.contentMode = .left
-        return urlLabel
-    }()
-    
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
@@ -66,22 +63,31 @@ class PictureOfDayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBarController?.title = "Picture of the Day"
         
         view.addSubview(scrollView)
-        addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, urlLabel, activityIndicator)
+        addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, activityIndicator)
         setConstraints()
         
-        NetworkManager.shared.fetchPictureOfDay { [weak self] result in
+        NetworkManager.shared.fetchPODObject { [unowned self] result in
             switch result {
-            case .success(let pictureOfDay):
-                guard let picture = pictureOfDay else { return }
-                self?.configureLabels(with: picture)
-                self?.configureImage(with: picture)
+            case .success(let podObject):
+                self.configureLabels(with: podObject)
+                self.configureImage(with: podObject)
             case .failure(let error):
                 print(error)
             }
         }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.title = "Picture of the Day"
+        
+        let listOfPODsButton = UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(showPODlist))
+        
+        
+        tabBarController?.navigationItem.rightBarButtonItem = listOfPODsButton
     }
     
     private func addScrollViewSubviews(_ views:UIView...) {
@@ -133,15 +139,7 @@ class PictureOfDayViewController: UIViewController {
             explanationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             explanationLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             explanationLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-        ])
-        
-        urlLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            urlLabel.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: 20),
-            urlLabel.leadingAnchor.constraint(equalTo: explanationLabel.leadingAnchor),
-            urlLabel.trailingAnchor.constraint(equalTo: explanationLabel.trailingAnchor),
-            urlLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40)
-        
+            explanationLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40)
         ])
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -152,19 +150,33 @@ class PictureOfDayViewController: UIViewController {
     }
 
     //MARK: - Changing methods
-    private func configureLabels(with picture: PictureOfDay) {
+    private func configureLabels(with picture: PODObject) {
         dateLabel.text = picture.date
         titleLabel.text = picture.title
         copyrightLabel.text = ""
         explanationLabel.text = picture.explanation
-        urlLabel.text = picture.url
     }
     
-    private func configureImage(with picture: PictureOfDay) {
+    private func configureImage(with picture: PODObject) {
         NetworkManager.shared.fetchImage(for: picture.url) { [weak self] image in
             self?.imageView.image = image
             self?.activityIndicator.stopAnimating()
         }
         imageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
+    }
+    
+    //MARK: - Navigation
+    @objc
+    private func showPODlist() {
+        let podListVC = PODListViewController()
+        podListVC.delegate = self
+        self.navigationController?.pushViewController(podListVC, animated: true)
+    }
+}
+
+extension PODViewController: PODListProtocol {
+    func updatePOD(with object: PODObject) {
+        configureLabels(with: object)
+        configureImage(with: object)
     }
 }
