@@ -10,7 +10,7 @@ import Alamofire
 
 protocol NetworkManagerProtocol {
     func fetchPODObject(completion: @escaping (Result<PODObject, NetworkError>) -> Void)
-    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<String, NetworkError>) -> Void)
+    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[NEOObjectsList], NetworkError>) -> Void)
     
     func fetchEPICObjects(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void)
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void)
@@ -68,7 +68,7 @@ class NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<String, NetworkError>) -> Void) {
+    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[NEOObjectsList], NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .NEO, with: parameters)
         guard let url = URL(string: urlPath) else {
             completion(.failure(.invalidURL))
@@ -83,13 +83,16 @@ class NetworkManager: NetworkManagerProtocol {
                     guard let data = dataResponse.data else { return }
                     let nearEarthObjects: NEOObjects? = self.parseData(with: data)
                     guard let nearEarthObjectsDict = nearEarthObjects?.nearEarthObjects else { return }
+                   
+                    var neoObjectsLists: [NEOObjectsList] = []
                     for (key, value) in nearEarthObjectsDict {
                         let neoObjectsList = NEOObjectsList()
                         neoObjectsList.date = key
                         neoObjectsList.neoObjects.append(objectsIn: value)
-                        StorageManager.shared.save(neoObjectsList)
+                        neoObjectsLists.append(neoObjectsList)
                     }
-                    completion(.success("Loaded and saved to Realm"))
+                    StorageManager.shared.save(neoObjectsLists)
+                    completion(.success(neoObjectsLists))
                 case .failure:
                     completion(.failure(.noData))
                 }

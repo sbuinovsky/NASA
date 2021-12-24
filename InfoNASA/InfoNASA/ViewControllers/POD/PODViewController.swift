@@ -8,8 +8,12 @@
 import UIKit
 import RealmSwift
 
-class PODViewController: UIViewController {
+protocol PODListProtocol {
+    func updatePOD(with object: PODObject)
+}
 
+class PODViewController: UIViewController {
+    
     //MARK: - Views
     private lazy var scrollView = UIScrollView()
     
@@ -48,14 +52,6 @@ class PODViewController: UIViewController {
         return explanationLabel
     }()
     
-    private lazy var urlLabel: UILabel = {
-        let urlLabel = UILabel()
-        urlLabel.numberOfLines = 1
-        urlLabel.textColor = .systemBlue
-        urlLabel.contentMode = .left
-        return urlLabel
-    }()
-    
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.hidesWhenStopped = true
@@ -69,7 +65,7 @@ class PODViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(scrollView)
-        addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, urlLabel, activityIndicator)
+        addScrollViewSubviews(copyrightLabel, dateLabel, imageView, titleLabel, explanationLabel, activityIndicator)
         setConstraints()
         
         NetworkManager.shared.fetchPODObject { [unowned self] result in
@@ -88,7 +84,9 @@ class PODViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.title = "Picture of the Day"
         
-        let listOfPODsButton = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(showPODlist))
+        let listOfPODsButton = UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(showPODlist))
+        
+        
         tabBarController?.navigationItem.rightBarButtonItem = listOfPODsButton
     }
     
@@ -141,15 +139,7 @@ class PODViewController: UIViewController {
             explanationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             explanationLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             explanationLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-        ])
-        
-        urlLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            urlLabel.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: 20),
-            urlLabel.leadingAnchor.constraint(equalTo: explanationLabel.leadingAnchor),
-            urlLabel.trailingAnchor.constraint(equalTo: explanationLabel.trailingAnchor),
-            urlLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40)
-        
+            explanationLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -40)
         ])
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -165,7 +155,6 @@ class PODViewController: UIViewController {
         titleLabel.text = picture.title
         copyrightLabel.text = ""
         explanationLabel.text = picture.explanation
-        urlLabel.text = picture.url
     }
     
     private func configureImage(with picture: PODObject) {
@@ -180,6 +169,14 @@ class PODViewController: UIViewController {
     @objc
     private func showPODlist() {
         let podListVC = PODListViewController()
+        podListVC.delegate = self
         self.navigationController?.pushViewController(podListVC, animated: true)
+    }
+}
+
+extension PODViewController: PODListProtocol {
+    func updatePOD(with object: PODObject) {
+        configureLabels(with: object)
+        configureImage(with: object)
     }
 }

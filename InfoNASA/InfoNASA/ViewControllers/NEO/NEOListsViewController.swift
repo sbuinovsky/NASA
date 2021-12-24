@@ -24,26 +24,38 @@ class NEOListsViewController: UIViewController {
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
         activityIndicator.style = .large
         return activityIndicator
+    }()
+    
+    private lazy var loadMoreButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Load more objects", for: .normal)
+        button.setTitleColor(UIColor(named: "mainBlueColor"), for: .normal)
+        button.addTarget(self, action: #selector(loadData), for: .touchUpInside)
+        button.isHidden = true
+        return button
     }()
     
     private var neoObjectsLists: Results<NEOObjectsList>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.prefetchDataSource = self
+        
         view.backgroundColor = .white
         
-        addSubviews(tableView, activityIndicator)
+        addSubviews(tableView, activityIndicator, loadMoreButton)
         setConstraints()
+        print(view.constraints)
         neoObjectsLists = StorageManager.shared.realm.objects(NEOObjectsList.self).sorted(byKeyPath: "date", ascending: false)
-       
-        if !neoObjectsLists.isEmpty {
-            activityIndicator.stopAnimating()
-        } else {
-            moreButtonPressed()
+        
+        activityIndicator.stopAnimating()
+        
+        if neoObjectsLists.count < 7 {
+            loadData()
         }
     }
     
@@ -71,26 +83,36 @@ class NEOListsViewController: UIViewController {
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: tableView.centerYAnchor)
+            activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+        
+        loadMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadMoreButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            loadMoreButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60)
         ])
     }
     
     @objc
-    private func moreButtonPressed() {
+    private func loadData() {
         activityIndicator.startAnimating()
-        tableView.layer.opacity = 0.2
         
         let lastDateString = neoObjectsLists.last?.date ?? ""
         let lastDate = DateFormatter.dateFromString(for: lastDateString)
         
         let dateRange = DateFormatter.getDateRange(forDays: 7, to: lastDate)
+        
         NetworkManager.shared.fetchNEOObjects(forDateInterval: dateRange) { [unowned self] result in
             switch result {
             case .success(_):
                 tableView.reloadData()
-                tableView.layer.opacity = 1
                 activityIndicator.stopAnimating()
+                if neoObjectsLists.count > 10 {
+                    loadMoreButton.isHidden = true
+                } else {
+                    loadMoreButton.isHidden = false
+                }
             case .failure(let error):
                 print(error)
             }
@@ -101,47 +123,44 @@ class NEOListsViewController: UIViewController {
 //MARK: - Extension for TableView
 extension NEOListsViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        2
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? neoObjectsLists.count : 1
+        neoObjectsLists.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOListsCellButton", for: indexPath) as! NEOListsCellButton
-            cell.configure()
-            cell.moreButton.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NEOListsCell", for: indexPath)
-            
-            let neoObjectsList = neoObjectsLists[indexPath.row]
-            
-            var content = cell.defaultContentConfiguration()
-            content.image = UIImage(systemName: "calendar")
-            content.imageProperties.tintColor = UIColor(named: "mainBlueColor")
-            content.text = neoObjectsList.date
-            content.secondaryText = "\(neoObjectsList.neoObjects.count) objects"
-            cell.contentConfiguration = content
-            
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NEOListsCell", for: indexPath)
+        
+        let neoObjectsList = neoObjectsLists[indexPath.row]
+        
+        var content = cell.defaultContentConfiguration()
+        content.image = UIImage(systemName: "calendar")
+        content.imageProperties.tintColor = UIColor(named: "mainBlueColor")
+        content.text = neoObjectsList.date
+        content.secondaryText = "\(neoObjectsList.neoObjects.count) objects"
+        cell.contentConfiguration = content
+        
+        return cell
     }
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            let neoObjectListVC = NEOListViewController()
-            let neoObjectsList = neoObjectsLists[indexPath.row]
-            neoObjectListVC.neoObjectsList = neoObjectsList
-            self.navigationController?.pushViewController(neoObjectListVC, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
-        } else {
-            moreButtonPressed()
-            tableView.deselectRow(at: indexPath, animated: true)
+        let neoObjectListVC = NEOListViewController()
+        let neoObjectsList = neoObjectsLists[indexPath.row]
+        neoObjectListVC.neoObjectsList = neoObjectsList
+        self.navigationController?.pushViewController(neoObjectListVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension NEOListsViewController: UITableViewDataSourcePrefetching {
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let maxRow = indexPaths.map(\.row).max() else { return }
+        if maxRow > neoObjectsLists.count - 5 {
+            loadData()
         }
     }
+    
+    
+    
 }

@@ -14,7 +14,14 @@
 
 import RealmSwift
 
-class StorageManager {
+protocol StorageManagerProtocol {
+    func save<T: Object>(_ object: T)
+    func save<T: Object>(_ objects: [T])
+    func delete<T: Object>(_ object: T)
+}
+
+class StorageManager: StorageManagerProtocol {
+    
     static let shared = StorageManager()
     
     let realm = try! Realm()
@@ -25,6 +32,12 @@ class StorageManager {
     func save<T: Object>(_ object: T) {
         write {
             realm.add(object, update: .modified)
+        }
+    }
+    
+    func save<T: Object>(_ objects: [T]) {
+        write {
+            realm.add(objects, update: .modified)
         }
     }
     

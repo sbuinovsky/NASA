@@ -11,6 +11,7 @@ import RealmSwift
 class PODListViewController: UIViewController {
 
     var podList: Results<PODObject>!
+    var delegate: PODViewController!
     
     //MARK: - Views
     private lazy var tableView: UITableView = {
@@ -39,7 +40,7 @@ class PODListViewController: UIViewController {
         setConstraints()
         activityIndicator.stopAnimating()
         
-        podList = StorageManager.shared.realm.objects(PODObject.self)
+        podList = StorageManager.shared.realm.objects(PODObject.self).sorted(byKeyPath: "date", ascending: false)
         
     }
     
@@ -76,8 +77,6 @@ extension PODListViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PODListCell", for: indexPath) as! PODListCell
-        
-        tableView.deselectRow(at: indexPath, animated: true)
 
         let podObject = podList[indexPath.row]
         cell.configure(with: podObject)
@@ -85,12 +84,9 @@ extension PODListViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    //MARK: - Navigation
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let neoObjectDetailedVC = NEODetailedViewController()
-//        let neoObject = neoObjectsList.neoObjects[indexPath.row]
-//        neoObjectDetailedVC.object = neoObject
-//        self.navigationController?.pushViewController(neoObjectDetailedVC, animated: true)
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let podObject = podList[indexPath.row]
+        delegate.updatePOD(with: podObject)
+        self.navigationController?.popViewController(animated: true)
+    }
 }

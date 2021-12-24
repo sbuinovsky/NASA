@@ -61,7 +61,6 @@ class PODListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
-//            dateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     
@@ -72,8 +71,8 @@ class PODListCell: UITableViewCell {
     }
     
     private func configureImage(for object: PODObject) {
-        NetworkManager.shared.fetchImage(for: object.url) { [unowned self] image in
-            self.iconImage.image = image
+        NetworkManager.shared.fetchImage(for: object.url) { [weak self] image in
+            self?.iconImage.image = image
         }
         iconImage.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
     }

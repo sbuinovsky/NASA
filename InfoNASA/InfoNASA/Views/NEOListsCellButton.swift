@@ -11,12 +11,19 @@ class NEOListsCellButton: UITableViewCell {
     //MARK: - Views
     lazy var moreButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Load 7 more days", for: .normal)
+        button.setTitle("Load 3 more days", for: .normal)
         return button
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        return activityIndicator
     }()
 
     func configure() {
-        addSubviews(moreButton)
+        addSubviews(moreButton, activityIndicator)
         setConstraints()
     }
     
@@ -33,5 +40,22 @@ class NEOListsCellButton: UITableViewCell {
             moreButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             moreButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+    }
+    
+    //MARK: - Public methods
+    func startUpdate() {
+        moreButton.isHidden = true
+        activityIndicator.startAnimating()
+    }
+    
+    func endUpdate() {
+        activityIndicator.stopAnimating()
+        moreButton.isHidden = false
     }
 }
