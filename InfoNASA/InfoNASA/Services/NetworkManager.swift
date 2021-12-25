@@ -7,26 +7,32 @@
 
 import UIKit
 import Alamofire
+import SwiftUI
 
 protocol NetworkManagerProtocol {
     func fetchPODObject(completion: @escaping (Result<PODObject, NetworkError>) -> Void)
-    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[NEOObjectsList], NetworkError>) -> Void)
-    
-    func fetchEPICObjects(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void)
+    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<SuccessMessage, NetworkError>) -> Void)
+    func fetchEPICObjects(completion: @escaping (Result<SuccessMessage, NetworkError>) -> Void)
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void)
-    func generateEPICImageURLPath(for picture: PictureOfEPIC) -> String
+    func generateEPICImageURLPath(for picture: EPICObject) -> String
 }
 
 private enum CategoryPath: String {
     case POD = "/planetary/apod"
-    case EPIC = "/EPIC/api/natural/images"
     case NEO = "/neo/rest/v1/feed"
+    case EPIC = "/EPIC/api/natural/images"
 }
 
 enum NetworkError: String, Error {
     case invalidURL
     case noData
     case decodingError
+}
+
+enum SuccessMessage: String {
+    case POD = "PODObject loaded and saved to Realm"
+    case NEO = "NEOObjects loaded and saved to Realm"
+    case EPIC = "EPICObjects loaded and saved to Realm"
 }
 
 class NetworkManager: NetworkManagerProtocol {
@@ -68,7 +74,7 @@ class NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<[NEOObjectsList], NetworkError>) -> Void) {
+    func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<SuccessMessage, NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .NEO, with: parameters)
         guard let url = URL(string: urlPath) else {
             completion(.failure(.invalidURL))
@@ -92,14 +98,14 @@ class NetworkManager: NetworkManagerProtocol {
                         neoObjectsLists.append(neoObjectsList)
                     }
                     StorageManager.shared.save(neoObjectsLists)
-                    completion(.success(neoObjectsLists))
+                    completion(.success(.NEO))
                 case .failure:
                     completion(.failure(.noData))
                 }
             }
     }
     
-    func fetchEPICObjects(completion: @escaping (Result<[PictureOfEPIC]?, NetworkError>) -> Void) {
+    func fetchEPICObjects(completion: @escaping (Result<SuccessMessage, NetworkError>) -> Void) {
         let urlPath = generateUrlPath(for: .EPIC)
         guard let url = URL(string: urlPath) else {
             completion(.failure(.invalidURL))
@@ -109,14 +115,18 @@ class NetworkManager: NetworkManagerProtocol {
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data else {
                 completion(.failure(.noData))
-                print(error?.localizedDescription ?? "")
                 return
             }
             
-            let pictureObjects: [PictureOfEPIC]? = self.parseArrayData(with: data)
+            let epicObjects: [EPICObject]? = self.parseArrayData(with: data)
+            guard let epicObjects = epicObjects else {
+                completion(.failure(.decodingError))
+                return
+            }
             
             DispatchQueue.main.async {
-                completion(.success(pictureObjects))
+                StorageManager.shared.save(epicObjects)
+                completion(.success(.EPIC))
             }
         }.resume()
     }
@@ -147,7 +157,7 @@ class NetworkManager: NetworkManagerProtocol {
         
     }
     
-    func generateEPICImageURLPath(for picture: PictureOfEPIC) -> String {
+    func generateEPICImageURLPath(for picture: EPICObject) -> String {
         let apiPath = Constants.share.apiPath
         let apiKey = Constants.share.apiKey
         let date = picture.date

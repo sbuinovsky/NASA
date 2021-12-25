@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class EPICListViewController: UIViewController {
 
@@ -19,7 +20,7 @@ class EPICListViewController: UIViewController {
         return tableView
     }()
     
-    private var pictures: [PictureOfEPIC] = []
+    private var epicObjects: Results<EPICObject>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,18 +29,10 @@ class EPICListViewController: UIViewController {
         view.addSubview(tableView)
         setConstraints()
         
-        NetworkManager.shared.fetchEPICObjects { [weak self] result in
-            switch result {
-            case .success( let picturesOfEPIC):
-                guard let picturesOfEPIC = picturesOfEPIC else { return }
-                self?.pictures = picturesOfEPIC
-                self?.tableView.reloadData()
-                for picture in self?.pictures ?? [] {
-                    print(picture)
-                }
-            case .failure(let error):
-                print(error)
-            }
+        epicObjects = StorageManager.shared.realm.objects(EPICObject.self)
+        
+        if epicObjects.count == 0 {
+            loadData()
         }
     }
     
@@ -59,12 +52,24 @@ class EPICListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func loadData() {
+        NetworkManager.shared.fetchEPICObjects { [unowned self] result in
+            switch result {
+            case .success( let message):
+                print(message.rawValue)
+                tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
 
 //MARK: - Extension for TableView
 extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pictures.count
+        epicObjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,19 +77,19 @@ extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let picture = pictures[indexPath.row]
+        let object = epicObjects[indexPath.row]
         
-        cell.configure(with: picture)
+        cell.configure(with: object)
         
         return cell
     }
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let pictureOfEPICDetailedVC = EPICDetailedViewController()
-        let object = pictures[indexPath.row]
-        pictureOfEPICDetailedVC.object = object
-        self.navigationController?.pushViewController(pictureOfEPICDetailedVC, animated: true)
+        let epicDetailedVC = EPICDetailedViewController()
+        let object = epicObjects[indexPath.row]
+        epicDetailedVC.object = object
+        self.navigationController?.pushViewController(epicDetailedVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

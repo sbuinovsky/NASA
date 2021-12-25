@@ -9,7 +9,7 @@ import UIKit
 
 class EPICDetailedViewController: UIViewController {
     
-    var object: PictureOfEPIC!
+    var object: EPICObject!
     
     private lazy var scrollView = UIScrollView()
     

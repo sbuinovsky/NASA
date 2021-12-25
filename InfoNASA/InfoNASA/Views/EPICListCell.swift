@@ -32,12 +32,12 @@ class EPICListCell: UITableViewCell {
         return activityIndicator
     }()
     
-    func configure(with picture: PictureOfEPIC) {
+    func configure(with object: EPICObject) {
         addSubviews(activityIndicator, photoImageView, dateLabel)
         setConstraints()
 
-        configureLabels(with: picture)
-        configureImage(with: picture)
+        configureLabels(with: object)
+        configureImage(with: object)
     }
     
     private func addSubviews(_ views: UIView...) {
@@ -71,8 +71,8 @@ class EPICListCell: UITableViewCell {
     }
     
     //MARK: - Changing methods
-    private func configureImage(with picture: PictureOfEPIC) {
-        let imagePath = NetworkManager.shared.generateEPICImageURLPath(for: picture)
+    private func configureImage(with object: EPICObject) {
+        let imagePath = NetworkManager.shared.generateEPICImageURLPath(for: object)
         NetworkManager.shared.fetchImage(for: imagePath) { [weak self] image in
             self?.photoImageView.image = image
             self?.activityIndicator.stopAnimating()
@@ -80,7 +80,7 @@ class EPICListCell: UITableViewCell {
         photoImageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
     }
     
-    private func configureLabels(with picture: PictureOfEPIC) {
-        dateLabel.text = "Photographed on the:\n" + picture.date
+    private func configureLabels(with object: EPICObject) {
+        dateLabel.text = "Photographed on the:\n" + object.date
     }
 }
