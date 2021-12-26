@@ -12,7 +12,7 @@ import SwiftUI
 protocol NetworkManagerProtocol {
     func fetchPODObject(completion: @escaping (Result<PODObject, NetworkError>) -> Void)
     func fetchNEOObjects(forDateInterval parameters: [String: String], completion: @escaping(Result<SuccessMessage, NetworkError>) -> Void)
-    func fetchEPICObjects(completion: @escaping (Result<SuccessMessage, NetworkError>) -> Void)
+    func fetchEPICObjects(forDate date: Date?, completion: @escaping (Result<SuccessMessage, NetworkError>) -> Void)
     func fetchImage(for imagePath: String, completion: @escaping(UIImage?) -> Void)
     func generateEPICImageURLPath(for picture: EPICObject) -> String
 }
@@ -21,6 +21,7 @@ private enum CategoryPath: String {
     case POD = "/planetary/apod"
     case NEO = "/neo/rest/v1/feed"
     case EPIC = "/EPIC/api/natural/images"
+    case EPICWithDate = "/EPIC/api/natural/date"
 }
 
 enum NetworkError: String, Error {
@@ -105,8 +106,15 @@ class NetworkManager: NetworkManagerProtocol {
             }
     }
     
-    func fetchEPICObjects(completion: @escaping (Result<SuccessMessage, NetworkError>) -> Void) {
-        let urlPath = generateUrlPath(for: .EPIC)
+    func fetchEPICObjects(forDate date: Date? = nil, completion: @escaping (Result<SuccessMessage, NetworkError>) -> Void) {
+        var urlPath = ""
+        
+        if let date = date {
+            urlPath = generateUrlPath(for: .EPICWithDate, forDate: date)
+        } else {
+            urlPath = generateUrlPath(for: .EPIC)
+        }
+        
         guard let url = URL(string: urlPath) else {
             completion(.failure(.invalidURL))
             return
@@ -211,5 +219,12 @@ class NetworkManager: NetworkManagerProtocol {
         }
         
         return urlPath
+    }
+    
+    private func generateUrlPath(for additionalPath: CategoryPath, forDate date: Date) -> String {
+        let apiPath = Constants.share.apiPath
+        let apiKey = Constants.share.apiKey
+        let date = DateFormatter.stringFromDate(for: date)
+        return apiPath + additionalPath.rawValue + "/\(date)" + "?api_key=\(apiKey)"
     }
 }
