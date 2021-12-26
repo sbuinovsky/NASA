@@ -83,4 +83,9 @@ class EPICListCell: UITableViewCell {
     private func configureLabels(with object: EPICObject) {
         dateLabel.text = "Photographed on the:\n" + object.date
     }
+    
+    override func prepareForReuse() {
+        photoImageView.image = UIImage(systemName: "globe.europe.africa")
+        dateLabel.text = ""
+    }
 }

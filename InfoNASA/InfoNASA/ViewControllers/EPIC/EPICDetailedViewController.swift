@@ -29,12 +29,20 @@ class EPICDetailedViewController: UIViewController {
         return label
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     
         view.addSubview(scrollView)
-        addScrollViewSubviews(photoImageView, descriptionLabel)
+        addScrollViewSubviews(photoImageView, descriptionLabel, activityIndicator)
         setConstraints()
         
         title = object.date
@@ -43,6 +51,7 @@ class EPICDetailedViewController: UIViewController {
             self?.photoImageView.image = image
         }
         photoImageView.animate(animation: .opacity, withDuration: 0.5, repeatCount: 0)
+        activityIndicator.stopAnimating()
         
         descriptionLabel.text = object.description
     }
@@ -77,6 +86,12 @@ class EPICDetailedViewController: UIViewController {
             descriptionLabel.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: photoImageView.trailingAnchor),
             descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20)
+        ])
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: photoImageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor)
         ])
     }
 
