@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class EPICListViewController: UIViewController {
 
@@ -19,27 +20,30 @@ class EPICListViewController: UIViewController {
         return tableView
     }()
     
-    private var pictures: [PictureOfEPIC] = []
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+        activityIndicator.style = .large
+        return activityIndicator
+    }()
+    
+    private var epicObjects: Results<EPICObject>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.prefetchDataSource = self
         view.backgroundColor = .white
         
-        view.addSubview(tableView)
+        addSubviews(tableView, activityIndicator)
         setConstraints()
         
-        NetworkManager.shared.fetchEPICObjects { [weak self] result in
-            switch result {
-            case .success( let picturesOfEPIC):
-                guard let picturesOfEPIC = picturesOfEPIC else { return }
-                self?.pictures = picturesOfEPIC
-                self?.tableView.reloadData()
-                for picture in self?.pictures ?? [] {
-                    print(picture)
-                }
-            case .failure(let error):
-                print(error)
-            }
+        epicObjects = StorageManager.shared.realm.objects(EPICObject.self)
+        
+        activityIndicator.stopAnimating()
+        
+        if epicObjects.count == 0 {
+            loadData(forDate: nil)
         }
     }
     
@@ -47,6 +51,12 @@ class EPICListViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.title = "Polychromatic camera"
         tabBarController?.navigationItem.rightBarButtonItem = nil
+    }
+    
+    private func addSubviews(_ views: UIView...) {
+        for view in views {
+            self.view.addSubview(view)
+        }
     }
     
     //MARK: - Constraints
@@ -58,13 +68,34 @@ class EPICListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+    }
+    
+    private func loadData(forDate date: Date?) {
+        activityIndicator.startAnimating()
+        
+        NetworkManager.shared.fetchEPICObjects(forDate: date) { [unowned self] result in
+            switch result {
+            case .success( let message):
+                print(message.rawValue)
+                tableView.reloadData()
+                activityIndicator.stopAnimating()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
 //MARK: - Extension for TableView
 extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pictures.count
+        epicObjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,19 +103,31 @@ extension EPICListViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let picture = pictures[indexPath.row]
+        let object = epicObjects[indexPath.row]
         
-        cell.configure(with: picture)
+        cell.configure(with: object)
         
         return cell
     }
     
     //MARK: - Navigation
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let pictureOfEPICDetailedVC = EPICDetailedViewController()
-        let object = pictures[indexPath.row]
-        pictureOfEPICDetailedVC.object = object
-        self.navigationController?.pushViewController(pictureOfEPICDetailedVC, animated: true)
+        let epicDetailedVC = EPICDetailedViewController()
+        let object = epicObjects[indexPath.row]
+        epicDetailedVC.object = object
+        self.navigationController?.pushViewController(epicDetailedVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension EPICListViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let maxRow = indexPaths.map(\.row).max() else { return }
+        if maxRow > epicObjects.count - 2  {
+            guard let lastObjectDate = epicObjects.last?.date else { return }
+            guard let shortDate = lastObjectDate.split(separator: " ").first else { return }
+            let date = DateFormatter.dateFromString(for: String(shortDate))
+            loadData(forDate: date - 1)
+        }
     }
 }

@@ -16,7 +16,6 @@ class NEOListsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "NEOListsCell")
-        tableView.register(NEOListsCellButton.self, forCellReuseIdentifier: "NEOListsCellButton")
         tableView.sectionHeaderHeight = 40
         tableView.separatorStyle = .none
         return tableView
@@ -54,7 +53,7 @@ class NEOListsViewController: UIViewController {
         
         activityIndicator.stopAnimating()
         
-        if neoObjectsLists.count < 7 {
+        if neoObjectsLists.count < 8 {
             loadData()
         }
     }
@@ -105,7 +104,8 @@ class NEOListsViewController: UIViewController {
         
         NetworkManager.shared.fetchNEOObjects(forDateInterval: dateRange) { [unowned self] result in
             switch result {
-            case .success(_):
+            case .success( let message):
+                print(message.rawValue)
                 tableView.reloadData()
                 activityIndicator.stopAnimating()
                 if neoObjectsLists.count > 10 {
@@ -156,7 +156,7 @@ extension NEOListsViewController: UITableViewDataSourcePrefetching {
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         guard let maxRow = indexPaths.map(\.row).max() else { return }
-        if maxRow > neoObjectsLists.count - 5 {
+        if maxRow > neoObjectsLists.count - 10 {
             loadData()
         }
     }

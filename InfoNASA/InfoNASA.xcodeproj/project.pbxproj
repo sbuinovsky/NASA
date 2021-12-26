@@ -27,12 +27,10 @@
 		C2AEB4672771091400E8778F /* EPICObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AEB4662771091400E8778F /* EPICObject.swift */; };
 		C2E92D47277358BA00D82079 /* NEOListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D46277358BA00D82079 /* NEOListViewController.swift */; };
 		C2E92D4C2774894A00D82079 /* Extension + DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4B2774894A00D82079 /* Extension + DateFormatter.swift */; };
-		C2E92D4E2774982800D82079 /* NEOListsCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4D2774982800D82079 /* NEOListsCellButton.swift */; };
 		C2E92D502774FE3B00D82079 /* PODListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */; };
 		C2E92D522774FEE200D82079 /* PODListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E92D512774FEE200D82079 /* PODListCell.swift */; };
 		C2EDC6162761EDA200C4F722 /* NEODetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */; };
 		C2EDC618276219B200C4F722 /* EPICDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */; };
-		C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */; };
 		C2EED8F9274AF63100E86A1D /* EPICListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EED8F8274AF63100E86A1D /* EPICListCell.swift */; };
 		C2F2DFE42752304800AAD03C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE32752304800AAD03C /* NetworkManager.swift */; };
 		C2F2DFE62752335400AAD03C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F2DFE52752335400AAD03C /* Constants.swift */; };
@@ -62,12 +60,10 @@
 		C2AEB4662771091400E8778F /* EPICObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICObject.swift; sourceTree = "<group>"; };
 		C2E92D46277358BA00D82079 /* NEOListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOListViewController.swift; sourceTree = "<group>"; };
 		C2E92D4B2774894A00D82079 /* Extension + DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + DateFormatter.swift"; sourceTree = "<group>"; };
-		C2E92D4D2774982800D82079 /* NEOListsCellButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEOListsCellButton.swift; sourceTree = "<group>"; };
 		C2E92D4F2774FE3B00D82079 /* PODListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PODListViewController.swift; sourceTree = "<group>"; };
 		C2E92D512774FEE200D82079 /* PODListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PODListCell.swift; sourceTree = "<group>"; };
 		C2EDC6152761EDA200C4F722 /* NEODetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NEODetailedViewController.swift; sourceTree = "<group>"; };
 		C2EDC617276219B200C4F722 /* EPICDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICDetailedViewController.swift; sourceTree = "<group>"; };
-		C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureOfEPIC.swift; sourceTree = "<group>"; };
 		C2EED8F8274AF63100E86A1D /* EPICListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPICListCell.swift; sourceTree = "<group>"; };
 		C2F2DFE32752304800AAD03C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		C2F2DFE52752335400AAD03C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -142,7 +138,6 @@
 		C20E2AD3273D24FE009A194D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C2AEB465277108F600E8778F /* Parsing */,
 				C2AEB4612771086D00E8778F /* PODObject.swift */,
 				C27FEE8E27463656007D6CE2 /* NEOObject.swift */,
 				C2AEB4662771091400E8778F /* EPICObject.swift */,
@@ -154,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				C2E92D512774FEE200D82079 /* PODListCell.swift */,
-				C2E92D4D2774982800D82079 /* NEOListsCellButton.swift */,
 				C27FEE9027465ACC007D6CE2 /* NEOListCell.swift */,
 				C2EED8F8274AF63100E86A1D /* EPICListCell.swift */,
 			);
@@ -201,14 +195,6 @@
 				C20E2ACA273D24BC009A194D /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
-			sourceTree = "<group>";
-		};
-		C2AEB465277108F600E8778F /* Parsing */ = {
-			isa = PBXGroup;
-			children = (
-				C2EED8F6274ADCE400E86A1D /* PictureOfEPIC.swift */,
-			);
-			path = Parsing;
 			sourceTree = "<group>";
 		};
 		C2E92D53277511D300D82079 /* POD */ = {
@@ -368,12 +354,10 @@
 				C2E92D47277358BA00D82079 /* NEOListViewController.swift in Sources */,
 				C2EDC618276219B200C4F722 /* EPICDetailedViewController.swift in Sources */,
 				C2E92D4C2774894A00D82079 /* Extension + DateFormatter.swift in Sources */,
-				C2EED8F7274ADCE400E86A1D /* PictureOfEPIC.swift in Sources */,
 				C27FEE8F27463656007D6CE2 /* NEOObject.swift in Sources */,
 				C2E92D522774FEE200D82079 /* PODListCell.swift in Sources */,
 				C22A9551275C0069005016FF /* StorageManager.swift in Sources */,
 				C2EED8F9274AF63100E86A1D /* EPICListCell.swift in Sources */,
-				C2E92D4E2774982800D82079 /* NEOListsCellButton.swift in Sources */,
 				C23ADB5A273E95FF0090A6C3 /* DataManager.swift in Sources */,
 				C2F2DFE62752335400AAD03C /* Constants.swift in Sources */,
 				C20E2AC2273D24BB009A194D /* SceneDelegate.swift in Sources */,
